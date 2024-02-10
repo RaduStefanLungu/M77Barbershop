@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --colorHightlight : #dec7a6;
+  --colorHightlight-dark : #c09b6b;
+  
+  --colorTemplate1 : #F8F5EF; 
+  --colorTemplate2 : #2E2C2D;
+}
+
+
+.button-transparent-white {
+  @apply
+  text-center text-white
+  border-white border-[0.15rem]
+  px-3 py-5
+  
+  font-barlow font-bold tracking-wide
+
+  text-2xl md:text-4xl lg:text-5xl
+  
+  md:px-5 md:py-7
+  lg:px-7 lg:py-9
+}
+
+.button-transparent-white:hover{
+  @apply
+  bg-white text-black
+  transition-all duration-[400ms]
+}
+
+.button-filled {
+  @apply
+  text-center text-black
+  bg-[var(--colorHightlight)]
+  border-[var(--colorHightlight)] border-[0.15rem]
+  px-3 py-5
+
+  font-barlow font-bold tracking-wide
+
+  text-2xl md:text-4xl lg:text-5xl
+
+  md:px-5 md:py-7
+  lg:px-7 lg:py-9
+}
+
+.button-filled:hover {
+  @apply
+  text-black
+  bg-[var(--colorHightlight-dark)]
+  border-[var(--colorHightlight-dark)] border-[0.15rem]
+  transition-all duration-[400ms]
+}
+
+.hero-bg {
+  background-image: url("./resources/35-gray-filter-vintage-frame-salon-tools-wooden-table-jobs-career-concept.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+.text-title {
+  @apply
+  font-barlow font-extrabold tracking-tight
+}
+
+.text-para {
+  @apply
+  font-open-sans tracking-tight
+}
