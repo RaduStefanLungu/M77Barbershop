@@ -8,5 +8,36 @@
     "street_number" : "64",
     "postal_code" : "6010",
     "city" : "Couillet",
-    "instagram_url" : "https://www.instagram.com/m77_barber?igsh=MTgwMGo4YzE2ODZ6YQ%3D%3D&utm_source=qr&fbclid=IwAR2RvqvmOxylku8yBSVg_5gKjkGnK-PZbiOW929NFX70AQoeSlje9oA9Z10"
+    "instagram_url" : "https://www.instagram.com/m77_barber?igsh=MTgwMGo4YzE2ODZ6YQ%3D%3D&utm_source=qr&fbclid=IwAR2RvqvmOxylku8yBSVg_5gKjkGnK-PZbiOW929NFX70AQoeSlje9oA9Z10",
+    "horaire" : [
+        {
+            "day" : "lundi",
+            "hours" : []
+        },
+        {
+            "day" : "mardi",
+            "hours" : ["9:00","20:00"]
+        },
+        {
+            "day" : "mercredi",
+            "hours" : ["9:00","20:00"]
+        },
+        {
+            "day" : "jeudi",
+            "hours" : ["9:00","20:00"]
+        },
+        {
+            "day" : "vendredi",
+            "hours" : ["9:00","20:00"]
+        },
+        {
+            "day" : "samedi",
+            "hours" : ["9:00","20:00"]
+        },
+        {
+            "day" : "dimanche",
+            "hours" : []
+        }
+    ]
+
 }
