@@ -20,6 +20,11 @@ import { MdOutlineFaceRetouchingNatural } from "react-icons/md";
 import { GiMustache } from "react-icons/gi";
 import { PiMaskHappyLight } from "react-icons/pi";
 
+import GALLERY_IMAGE_1 from '../resources/gallery/image_1.JPG'
+import GALLERY_IMAGE_2 from '../resources/gallery/image_2.jpg'
+import GALLERY_IMAGE_3 from '../resources/gallery/image_3.jpg'
+import GALLERY_IMAGE_4 from '../resources/handsome-man-barbershop-shaving-beard.jpg'
+import GALLERY_IMAGE_5 from '../resources/hairdresser-cutting-man-s-hair-barber-shop.jpg'
 
 
 
@@ -44,6 +49,10 @@ export default function HomePage() {
 
       <div>
         <Services></Services>
+      </div>
+
+      <div>
+        <Gallery/>
       </div>
 
       <div>
@@ -84,14 +93,14 @@ const CardBelt = () => {
   const Card = ({Icon,Title,Text}) => {
     return(
       <div className='max-w-[350px]'>
-        <div className=' grid bg-[var(--colorHightlight)] py-10 gap-5 h-[500px]'>
-          <div className='bg-[var(--colorHightlight-dark)] m-auto text-5xl p-5 shadow-md shadow-[var(--colorTemplate2)] '> 
+        <div className=' grid bg-[var(--colorHightlight)] py-10 gap-5 h-[500px] md:h-[550px]'>
+          <div className='bg-[var(--colorHightlight-dark)] m-auto text-5xl p-5 shadow-md shadow-[var(--colorTemplate2)] md:text-6xl lg:text-7xl '> 
             {Icon}
           </div>
 
           <div className='text-center '>
-            <h2 className='py-2 text-2xl text-center font-barlow font-bold tracking-normal'>{Title}</h2>
-            <p className='text-para py-2 mx-10'>{Text}</p>
+            <h2 className='py-2 text-2xl text-center font-barlow font-bold tracking-normal md:text-4xl'>{Title}</h2>
+            <p className='text-para py-2 mx-10 md:text-xl'>{Text}</p>
           </div>
 
         </div>
@@ -102,8 +111,8 @@ const CardBelt = () => {
   return(
     <div className='text-white container mx-auto py-10'>
       <div className='mx-10'>
-        <h1 className='text-md uppercase text-center font-barlow font-bold tracking-widest '>Services Professionels</h1>
-        <h2 className='text-3xl uppercase text-center font-barlow font-bold tracking-normal '> Les meilleurs services qu'on vous offre </h2>
+        <h1 className='pb-3 text-md uppercase text-center font-barlow font-bold tracking-widest md:text-xl lg:text-2xl '>Services Professionels</h1>
+        <h2 className='text-3xl uppercase text-center font-barlow font-bold tracking-normal md:text-5xl lg:text-6xl'> Les meilleurs services qu'on vous offre </h2>
       </div>
 
       <div className='mx-10 grid gap-10 justify-center py-10 xl:grid-flow-col'>
@@ -131,7 +140,7 @@ const AboutUs = () => {
         <div className='grid'>
           <div className=''>
             <h2 className='text-title uppercase text-3xl py-1 md:py-3 md:text-5xl lg:text-7xl '> A votre service depuis 2021 ! </h2>
-            <p className='text-para text-lg md:text-xl lg:text-2xl'>
+            <p className='text-para text-lg md:text-xl lg:text-2xl 2xl:text-3xl'>
               {DATA.description_1} <br/><br/>
               {DATA.description_3}
             </p>
@@ -209,11 +218,11 @@ const Services = () => {
       <div id='title' className='grid grid-flow-col'>
         <div className='border-y-[0.10rem] border-[var(--colorTemplate1)] my-auto pl-20'></div>
         <div className='grid grid-flow-col justify-center'>
-          <GoDot className='my-auto text-3xl'/>
+          <GoDot className='my-auto text-3xl md:text-5xl'/>
           <h2 className='py-2 md:py-6 text-title text-4xl md:text-6xl lg:text-8xl '>
             Nos Services
           </h2>
-          <GoDot className='my-auto text-3xl'/>
+          <GoDot className='my-auto text-3xl md:text-5xl '/>
         </div>
         <div className='border-y-[0.10rem] border-[var(--colorTemplate1)] my-auto pr-20'></div>
       </div>
@@ -268,6 +277,66 @@ const Services = () => {
   )
 }
 
+
+const Gallery = () => {
+  return(
+    <div className='bg-[var(--colorTemplate1)] flex flex-col'>
+
+      <h2 className='mx-2 pt-10 text-title uppercase text-4xl md:px-16 md:text-5xl lg:text-7xl'>Galerie</h2>
+
+      <div className='flex flex-col gap-10 2xl:hidden py-10 lg:py-20'>
+        <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_5} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
+          <img alt='' src={GALLERY_IMAGE_2} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
+        </div>
+
+        <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] mx-2 md:px-0 md:mx-auto shadow-md shadow-black' />
+        
+        <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_3} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+          <img alt='' src={GALLERY_IMAGE_1} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+        </div>
+
+      </div>
+
+      <div className='hidden flex-col gap-10 xl:hidden'>
+        <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] xl:max-w-[250px] ' />
+          <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto xl:mx-0' />
+          <img alt='' src={GALLERY_IMAGE_2} className='max-w-[350px] xl:max-w-[250px] ' />
+        </div>
+        
+        
+        <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_3} className='max-w-[350px]' />
+          <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px]' />
+        </div>
+
+      </div>
+
+      <div className='hidden flex-col gap-10 2xl:flex py-20'>
+        <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
+          <div className='relative 2xl:w-[300px]'>
+            <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+            <img alt='' src={GALLERY_IMAGE_3} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black -rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+          </div>
+
+          <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto 2xl:mx-5 2xl:max-w-[600px] 2xl:h-[450px] shadow-md shadow-black' />
+          
+          <div className='relative 2xl:w-[300px]'>
+            <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+            <img alt='' src={GALLERY_IMAGE_2} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  )
+}
+
+
 const Contact = () => {
   
   const [userName,setUserName] = useState("")
@@ -288,9 +357,9 @@ const Contact = () => {
   }
 
   return(
-    <div className='px-5 grid 2xl:grid-flow-col'>
+    <div className='px-5 grid 2xl:grid-flow-col py-20 justify-center'>
 
-      <div className='grid'>
+      <div className='grid max-w-[1000px]'>
         <div className='text-white'>
           <div id='title' className=' flex'>
             <GiRazor className='my-auto mx-2 text-4xl md:text-6xl lg:text-8xl text-[var(--colorHightlight)]'/>
@@ -304,10 +373,10 @@ const Contact = () => {
           </p>
         </div>
 
-        <div id='phone&email' className='grid gap-5 py-10 px-5 md:justify-start lg:grid-flow-col lg:'>
+        <div id='phone&email' className='grid gap-5 py-10 px-5 md:justify-start lg:grid-flow-col lg:justify-center'>
 
           <div className='grid grid-flow-col gap-5'>
-            <div className='p-3 bg-gray-600/20 mx-auto grid'>
+            <div className='hidden sm:grid p-3 bg-gray-600/20 mx-auto'>
               <HiOutlinePhone className='text-white text-5xl self-center'/>
             </div>
             <div>
@@ -317,7 +386,7 @@ const Contact = () => {
           </div>
 
           <div className='grid grid-flow-col gap-5'>
-            <div className='p-3 bg-gray-600/20 mx-auto grid'>
+            <div className='hidden sm:grid p-3 bg-gray-600/20 mx-auto'>
               <MdOutlineMailOutline className='text-white text-5xl self-center'/>
             </div>
             <div>
