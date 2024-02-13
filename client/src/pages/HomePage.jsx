@@ -28,7 +28,7 @@ import GALLERY_IMAGE_5 from '../resources/hairdresser-cutting-man-s-hair-barber-
 
 
 
-// TODO : add gallery,
+// TODO : add Appointment system, finish Menu Bar
 
 
 export default function HomePage() {
@@ -150,7 +150,7 @@ const AboutUs = () => {
             
             <div className='uppercase text-title' >
               <span className='text-[var(--colorHightlight-dark)] text-6xl '>+</span>
-              <span className='text-6xl '> 100</span> 
+              <span className='text-6xl '> 215</span> 
               <br/><span className='text-3xl lg:text-4xl'>clients fidèles</span>
             </div>
 
