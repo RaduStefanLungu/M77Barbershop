@@ -15,16 +15,27 @@ import { CiGift } from "react-icons/ci";
 import { HiOutlinePhone } from "react-icons/hi";
 import { MdOutlineMailOutline } from "react-icons/md";
 
+import { SiStylelint } from "react-icons/si";
+import { MdOutlineFaceRetouchingNatural } from "react-icons/md";
+import { GiMustache } from "react-icons/gi";
+import { PiMaskHappyLight } from "react-icons/pi";
 
 
+
+
+// TODO : add gallery,
 
 
 export default function HomePage() {
   return (
-    <div className='bg-[var(--colorTemplate2)] '>
+    <div className='bg-[var(--colorTemplate2)]'>
 
-      <div className='hero-bg md:h-screen '>
+      <div className='hero-bg '>
         <Hero></Hero>        
+      </div>
+
+      <div>
+        <CardBelt/>
       </div>
 
       <div>
@@ -68,6 +79,46 @@ const Hero = () => {
   )
 }
 
+const CardBelt = () => {
+
+  const Card = ({Icon,Title,Text}) => {
+    return(
+      <div className='max-w-[350px]'>
+        <div className=' grid bg-[var(--colorHightlight)] py-10 gap-5 h-[500px]'>
+          <div className='bg-[var(--colorHightlight-dark)] m-auto text-5xl p-5 shadow-md shadow-[var(--colorTemplate2)] '> 
+            {Icon}
+          </div>
+
+          <div className='text-center '>
+            <h2 className='py-2 text-2xl text-center font-barlow font-bold tracking-normal'>{Title}</h2>
+            <p className='text-para py-2 mx-10'>{Text}</p>
+          </div>
+
+        </div>
+      </div>
+    )
+  }
+
+  return(
+    <div className='text-white container mx-auto py-10'>
+      <div className='mx-10'>
+        <h1 className='text-md uppercase text-center font-barlow font-bold tracking-widest '>Services Professionels</h1>
+        <h2 className='text-3xl uppercase text-center font-barlow font-bold tracking-normal '> Les meilleurs services qu'on vous offre </h2>
+      </div>
+
+      <div className='mx-10 grid gap-10 justify-center py-10 xl:grid-flow-col'>
+        <Card Icon={<SiStylelint/>} Title={"Coupes Modernes et Tendances"} 
+          Text={"Découvrez les dernières tendances en matière de coupes de cheveux modernes dans notre salon. Nous sommes là pour vous aider à trouver le look parfait qui reflète votre personnalité et votre style de vie."}/>
+        <Card Icon={<MdOutlineFaceRetouchingNatural/>} Title={"Rasages Impeccables"} 
+          Text={"Pour une apparence soignée et professionnelle, optez pour nos rasages impeccables. Nos experts vous offriront un rasage précis et confortable, laissant votre peau lisse et rafraîchie."}/>
+        <Card Icon={<PiMaskHappyLight/>} Title={"Satisfaction Client Garantie"} 
+          Text={"Rejoignez notre communauté de clients satisfaits et découvrez pourquoi nous sommes le choix numéro un pour une expérience de coiffure exceptionnelle. Chez M77 Barber, votre satisfaction est notre priorité. "}/>
+      
+      </div>
+
+    </div>
+  )
+}
 
 const AboutUs = () => {
   return(
