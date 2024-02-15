@@ -31,8 +31,15 @@ export default function Header() {
                 </h1>
             </div>
 
-            <div className='px-5'>
+            <div className='px-5 md:hidden'>
                 <BurgerMenu/>
+            </div>
+
+            <div className='hidden md:grid grid-flow-col gap-5 px-5 text-[var(--colorTemplate1)]'>
+                <a href='/' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl text-[var(--colorHightlight)] hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Accueil</a>
+                <a href='#a-propos' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>A propos</a>
+                <a href='#services' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Services</a>
+                <a href='#contact' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Contact</a>
             </div>
 
         </header>

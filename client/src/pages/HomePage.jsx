@@ -131,7 +131,7 @@ const CardBelt = () => {
 
 const AboutUs = () => {
   return(
-    <div className='bg-[var(--colorTemplate1)] grid lg:grid-flow-col lg:gap-10 py-10 px-5 md:py-20 md:px-16'>
+    <div id='a-propos' className='bg-[var(--colorTemplate1)] grid lg:grid-flow-col lg:gap-10 py-10 px-5 md:py-20 md:px-16'>
 
       <img alt='' src={AboutPhoto} className='hidden xl:block my-auto min-w-[300px]' />
 
@@ -213,7 +213,7 @@ const Services = () => {
   }
 
   return(
-    <div id='Services' className='text-white pt-5 pb-10'>
+    <div id='services' className='text-white pt-5 pb-10'>
 
       <div id='title' className='grid grid-flow-col'>
         <div className='border-y-[0.10rem] border-[var(--colorTemplate1)] my-auto pl-20'></div>
@@ -357,7 +357,7 @@ const Contact = () => {
   }
 
   return(
-    <div className='px-5 grid 2xl:grid-flow-col py-20 justify-center'>
+    <div id='contact' className='px-5 grid 2xl:grid-flow-col py-20 justify-center'>
 
       <div className='grid max-w-[1000px]'>
         <div className='text-white'>
@@ -368,8 +368,9 @@ const Contact = () => {
           <p className='text-para py-2 md:text-2xl'>
           Si vous avez des questions, n'hésitez pas à nous contacter. 
           Notre équipe est là pour vous offrir une expérience exceptionnelle. 
-          Vous pouvez remplir le formulaire, nous appeler ou nous envoyer un e-mail. À très bientôt,
-          <br/><br/>M77
+          Vous pouvez remplir le formulaire, nous appeler ou nous envoyer un e-mail. 
+          <br/><br/>À très bientôt,
+          <br/>M77
           </p>
         </div>
 
