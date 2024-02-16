@@ -52,7 +52,7 @@ const RdvForm = () => {
     // get existing appointments in db
 
     let taken_hours = await getTakenHoursOfDay(formatted_date)
-    // console.log(taken_hours);
+    console.log(taken_hours);
 
     // put all of them at IsTaken = false
     DATA.horaire.map(
@@ -60,7 +60,13 @@ const RdvForm = () => {
         if(value.day === chosen_day_of_week){
           let formatted_list = []
           value.hours.map((hour,k) => {
-            formatted_list.push([hour,false])
+            if(taken_hours.includes(hour)){
+              formatted_list.push([hour,true])
+            }
+            else{
+              formatted_list.push([hour,false])
+            }
+            
           })
           setAppointmentHours(formatted_list)
         }
@@ -102,14 +108,16 @@ const RdvForm = () => {
 
   const HourTab = ({Value,IsTaken,ReferenceValues}) => {
     
+    const [selected,setSelected] = useState(false)
     
     function handleChosenHour(e){
       e.preventDefault()
+      setSelected(true)
       ReferenceValues[1](Value)
     }
     
     return(
-      <button className={`${IsTaken? "bg-red-300": "bg-green-300"}`} onClick={handleChosenHour}>
+      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem]  ${ selected? "border-black" : "border-transparent" }`} disabled={IsTaken} onClick={handleChosenHour}>
         {Value}
       </button>
     )

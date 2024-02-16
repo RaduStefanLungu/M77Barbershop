@@ -114,13 +114,7 @@ export async function getTakenHoursOfDay(day){
           const appointmentData = element[key];
           result.push(appointmentData['rdv_time'])
       });
-
-
-        
-        // result.push(element.rdv_time)
-      }
-    )
-    console.log(result);
+    })
     return result
   }
 
@@ -171,6 +165,7 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
           }
 
            // add new appointment to array
+           // no need to check if already exists because of 'disableb' proprety of the selected stuff
            const appointmentRef = doc(firestore_db, "appointments", rdv_date);
            updateDoc(appointmentRef, {
            all_appointments: arrayUnion({ [`appointment_${number_of_existing_appointments}`]: data })
