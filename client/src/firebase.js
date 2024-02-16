@@ -1,7 +1,7 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from 'firebase/app'
 import { getAuth } from "firebase/auth"
-import { addDoc, collection, getFirestore, doc, getDoc, getDocs, updateDoc, deleteDoc, Timestamp } from "firebase/firestore"; 
+import { addDoc, collection, getFirestore, doc, getDoc, getDocs, updateDoc, deleteDoc, Timestamp, setDoc, arrayUnion } from "firebase/firestore"; 
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -119,7 +119,35 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
     }
   
     try{
-      addDoc(collection(firestore_db,"appointments"),data)
+      
+      // check if document already existst:
+
+      getDocumentById('appointments',rdv_date).then(
+        (response) => {
+          console.log(response);
+          let number_of_existing_appointments = 0
+          
+          // if it doesn't exists, create it 
+          if(response === null){
+            setDoc(doc(firestore_db,'appointments',rdv_date),{
+              all_appointments : []
+            })
+          }
+          else{
+            //get # of existing appointments 
+            number_of_existing_appointments = response.all_appointments.length 
+          }
+
+           // add new appointment to array
+           const appointmentRef = doc(firestore_db, "appointments", rdv_date);
+           updateDoc(appointmentRef, {
+           all_appointments: arrayUnion({ [`appointment_${number_of_existing_appointments}`]: data })
+       });
+
+        }
+      )
+      
+
       return(true)
 
     }catch(e){

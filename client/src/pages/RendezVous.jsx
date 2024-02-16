@@ -3,7 +3,7 @@ import { addAppointment, getAppointmentDate } from '../firebase'
 
 import DATA from '../data/data.json'
 
-// TODO make user to add appointment , then render appointment if it is available
+// TODO make user to render appointment if it is available
 
 export default function RendezVous() {
   return (
@@ -27,7 +27,7 @@ const RdvForm = () => {
 
   const [today,setToday] = useState(new Date().toISOString().split('T')[0])
 
-  const [appointmentHours, setAppointmentHours] = useState([])
+  const [appointmentHours, setAppointmentHours] = useState([])      // contains : [hour,bool] where bool => is taken?
 
 
   // when date is set query from db all the free appointment spots
@@ -56,7 +56,12 @@ const RdvForm = () => {
     DATA.horaire.map(
       (value,key) =>{
         if(value.day === chosen_day_of_week){
-          setAppointmentHours(value.hours)
+          let formatted_list = []
+          value.hours.map((hour,k) => {
+            formatted_list.push([hour,false])
+          })
+          console.log(formatted_list);
+          setAppointmentHours(formatted_list)
         }
       }
     )
@@ -68,9 +73,9 @@ const RdvForm = () => {
 
     // add appointment
 
-    // addAppointment(fullName, email, phone, date, appointmentTime)
+    addAppointment(fullName, email, phone, date, appointmentTime)
 
-    // console.log(generateAppointmentIntervals("9:00","20:00"));
+    console.log(fullName,email,phone,date,appointmentTime);
 
   }
 
@@ -86,9 +91,16 @@ const RdvForm = () => {
 
 
 
-  const HourTab = ({Value,Free}) => {
+  const HourTab = ({Value,IsTaken,ReferenceValues}) => {
+    
+    
+    function handleChosenHour(e){
+      e.preventDefault()
+      ReferenceValues[1](Value)
+    }
+    
     return(
-      <button className={`${Free? "bg-green-300": "bg-red-300"}`}>
+      <button className={`${IsTaken? "bg-red-300": "bg-green-300"}`} onClick={handleChosenHour}>
         {Value}
       </button>
     )
@@ -104,10 +116,10 @@ const RdvForm = () => {
         <input type='date' id='chosen_date' required min={today} className='border-black border-2' onChange={handleDateChosen}/>
       </div>
 
-      <div className='py-5 grid'>
+      <div className='py-5 grid gap-1 grid-cols-5'>
         {appointmentHours.map((value,key) => {
           return(
-            <HourTab key={key} Value={value} Free={true} />
+            <HourTab key={key} Value={value[0]} IsTaken={value[1]} ReferenceValues={[appointmentTime,setAppointmentTime]} />
           )
         })}
       </div>
