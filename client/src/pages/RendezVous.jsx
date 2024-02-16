@@ -112,12 +112,18 @@ const RdvForm = () => {
     
     function handleChosenHour(e){
       e.preventDefault()
-      setSelected(true)
-      ReferenceValues[1](Value)
+      // setSelected(true)
+      // ReferenceValues[1](Value)
+
+      setSelected(prevState => {
+        ReferenceValues[1](Value); // This will be called after the state update
+        return true; // This updates the state
+      });
+    
     }
     
     return(
-      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem]  ${ selected? "border-black" : "border-transparent" }`} disabled={IsTaken} onClick={handleChosenHour}>
+      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem] ${selected? "border-black":"border-transparent"}`} disabled={IsTaken} onClick={handleChosenHour}>
         {Value}
       </button>
     )

@@ -28,7 +28,7 @@ import GALLERY_IMAGE_5 from '../resources/hairdresser-cutting-man-s-hair-barber-
 
 
 
-// TODO : add Appointment system, finish Menu Bar
+
 
 
 export default function HomePage() {
