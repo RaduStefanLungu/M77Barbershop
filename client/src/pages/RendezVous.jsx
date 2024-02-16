@@ -108,26 +108,19 @@ const RdvForm = () => {
 
   const HourTab = ({Value,IsTaken,ReferenceValues}) => {
     
-    const [selected,setSelected] = useState(false)
-    
     function handleChosenHour(e){
       e.preventDefault()
-      // setSelected(true)
-      // ReferenceValues[1](Value)
-
-      setSelected(prevState => {
-        ReferenceValues[1](Value); // This will be called after the state update
-        return true; // This updates the state
-      });
-    
+      ReferenceValues[1](Value)
     }
     
     return(
-      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem] ${selected? "border-black":"border-transparent"}`} disabled={IsTaken} onClick={handleChosenHour}>
+      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem] `} disabled={IsTaken} onClick={handleChosenHour}>
         {Value}
       </button>
     )
   }
+
+  const [clickedHour,setClickedHour] = useState(["",false])
 
 
   return(
@@ -143,7 +136,9 @@ const RdvForm = () => {
       <div className='py-5 grid gap-1 grid-cols-5'>
         {appointmentHours.map((value,key) => {
           return(
-            <HourTab key={key} Value={value[0]} IsTaken={value[1]} ReferenceValues={[appointmentTime,setAppointmentTime]} />
+            <div id={`hourTab_${key}`} className={`grid border-[0.15rem] ${clickedHour[0]===`hourTab_${key}` && clickedHour[1] ? "border-black" : "border-transparent"}`} onClick={(e)=>{setClickedHour([e.currentTarget.id,true])}}>
+              <HourTab key={key}  Value={value[0]} IsTaken={value[1]} ReferenceValues={[appointmentTime,setAppointmentTime]} />
+            </div>
           )
         })}
       </div>
