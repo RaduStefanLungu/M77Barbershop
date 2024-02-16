@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addAppointment, getAppointmentDate } from '../firebase'
+import { addAppointment, getAppointmentDate, getTakenHoursOfDay } from '../firebase'
 
 import DATA from '../data/data.json'
 
@@ -30,29 +30,31 @@ const RdvForm = () => {
   const [appointmentHours, setAppointmentHours] = useState([])      // contains : [hour,bool] where bool => is taken?
 
 
+  const [errorMessage, setErrorMessage] = useState("")
+
   // when date is set query from db all the free appointment spots
 
-  function handleDateChosen(e){
+  async function handleDateChosen(e){
     e.preventDefault()
 
     // query
-
-    // console.log(e.target.value);
     let given_date = e.target.value
 
     let splitted_date = given_date.split('-')
 
     let formatted_date = splitted_date[2] + "_" + splitted_date[1] + "_" + splitted_date[0]
 
-    console.log(formatted_date);
-
     setDate(formatted_date)
     
     // user chosen day
     let chosen_day_of_week = getDayOfWeek(new Date(e.target.value)) 
-    console.log(chosen_day_of_week);
 
+    // get existing appointments in db
 
+    let taken_hours = await getTakenHoursOfDay(formatted_date)
+    // console.log(taken_hours);
+
+    // put all of them at IsTaken = false
     DATA.horaire.map(
       (value,key) =>{
         if(value.day === chosen_day_of_week){
@@ -60,22 +62,29 @@ const RdvForm = () => {
           value.hours.map((hour,k) => {
             formatted_list.push([hour,false])
           })
-          console.log(formatted_list);
           setAppointmentHours(formatted_list)
         }
       }
     )
+
+
   
   }
 
   function handleSubmit(e) {
     e.preventDefault()
 
-    // add appointment
 
-    addAppointment(fullName, email, phone, date, appointmentTime)
+    console.log(appointmentTime.length);
+    // check if everything is completed (by default all but appointmentTime will be selected because of 'required' )
+    if(appointmentTime.length <= 0) {
+      setErrorMessage("Veuillez choisir une heure disponible")
+    }
+    else{
+      // if all good : add appointment to db
+      addAppointment(fullName, email, phone, date, appointmentTime)
+    }
 
-    console.log(fullName,email,phone,date,appointmentTime);
 
   }
 
@@ -109,6 +118,7 @@ const RdvForm = () => {
 
   return(
     <form className='grid bg-gray-300 py-10' onSubmit={handleSubmit}>
+      <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
       <div className='grid gap-5'>
         <input type='text' required placeholder='Nom et Prénom' className='border-black border-2' onChange={(e)=>{setFullName(e.target.value)}}/>
         <input type='text' required placeholder='Email' className='border-black border-2' onChange={(e)=>{setEmail(e.target.value)}}/>

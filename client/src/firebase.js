@@ -94,6 +94,39 @@ export async function getUsers(){
   return all_users;
 }
 
+export async function getTakenHoursOfDay(day){
+  let result = []
+
+  // check if document exists : 
+
+  let document_from_db = await getDocumentById('appointments',day)
+
+  if(document_from_db === null){
+    return result
+  }
+  else{
+    const given_day_appointments = await getAppointmentDate(day)
+    given_day_appointments.all_appointments.forEach(
+      (element) => {
+        const appointmentKeys = Object.keys(element)
+
+        appointmentKeys.forEach(key => {
+          const appointmentData = element[key];
+          result.push(appointmentData['rdv_time'])
+      });
+
+
+        
+        // result.push(element.rdv_time)
+      }
+    )
+    console.log(result);
+    return result
+  }
+
+  
+}
+
 export async function getAppointmentDate(documentID) {
     try{
         return getDocumentById("appointments",documentID)
@@ -124,7 +157,6 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
 
       getDocumentById('appointments',rdv_date).then(
         (response) => {
-          console.log(response);
           let number_of_existing_appointments = 0
           
           // if it doesn't exists, create it 
