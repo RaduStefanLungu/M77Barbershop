@@ -32,6 +32,29 @@
   transition-all duration-[400ms]
 }
 
+.button-transparent-white-small {
+  @apply
+  text-center text-white
+  border-white border-[0.15rem]
+
+  px-2 py-2
+  
+  font-barlow font-bold tracking-wide
+
+  md:text-2xl lg:text-4xl
+  
+  md:px-4 md:py-3
+  lg:px-7 lg:py-9
+}
+
+.button-transparent-white-small:hover{
+  @apply
+  bg-white text-black
+  transition-all duration-[400ms]
+}
+
+
+
 .button-filled {
   @apply
   text-center text-black
@@ -53,6 +76,21 @@
   bg-[var(--colorHightlight-dark)]
   border-[var(--colorHightlight-dark)] border-[0.15rem]
   transition-all duration-[400ms]
+}
+
+.button-deleteRDV {
+  @apply
+  text-center text-black
+  bg-red-400 border-red-400 border-[0.15rem]  
+
+  px-2 py-2
+  
+  font-barlow font-bold tracking-wide
+
+  md:text-2xl lg:text-4xl
+  
+  md:px-4 md:py-3
+  lg:px-7 lg:py-9
 }
 
 .hero-bg {

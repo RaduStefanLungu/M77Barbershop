@@ -1,7 +1,7 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from 'firebase/app'
 import { getAuth } from "firebase/auth"
-import { addDoc, collection, getFirestore, doc, getDoc, getDocs, updateDoc, deleteDoc, Timestamp, setDoc, arrayUnion } from "firebase/firestore"; 
+import { addDoc, collection, getFirestore, doc, getDoc, getDocs, updateDoc, deleteDoc, Timestamp, setDoc, arrayUnion, onSnapshot } from "firebase/firestore"; 
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app)
 
-const firestore_db = getFirestore(app)
+export const firestore_db = getFirestore(app)
 
 
 export async function getUserDocument(userEmail){
@@ -82,17 +82,17 @@ const getDocumentById = async (collectionName, documentId) => {
   }
 };
 
-export async function getUsers(){
-  const myCollection = await collection(firestore_db,"user_data")
-  const querySnapshot = await getDocs(myCollection)
+// export async function getUsers(){
+//   const myCollection = await collection(firestore_db,"user_data")
+//   const querySnapshot = await getDocs(myCollection)
 
-  const all_users = []
-  querySnapshot.forEach((doc) => {
-    all_users.push({id: doc.id, ...doc.data()})
-  })  
+//   const all_users = []
+//   querySnapshot.forEach((doc) => {
+//     all_users.push({id: doc.id, ...doc.data()})
+//   })  
 
-  return all_users;
-}
+//   return all_users;
+// }
 
 export async function getTakenHoursOfDay(day){
   let result = []
@@ -135,10 +135,52 @@ export async function getAppointmentDate(documentID) {
     }
 }
 
+export async function getAllAppointments(setter) {
+  const collectionRef = collection(firestore_db, 'appointments');
+  const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+      const newData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      // Sort newData by ID
+      newData.sort((a, b) => {
+          const [dayA, monthA, yearA] = a.id.split('_').map(Number);
+          const [dayB, monthB, yearB] = b.id.split('_').map(Number);
+          
+          // Compare years
+          if (yearA !== yearB) {
+              return yearA - yearB;
+          }
+          
+          // Compare months if years are equal
+          if (monthA !== monthB) {
+              return monthA - monthB;
+          }
+          
+          // Compare days if months are equal
+          return dayA - dayB;
+      });
+
+      setter(newData);
+  });
+  return () => unsubscribe();
+}
+
+export async function getAllAppointmentsMonotone() {
+  const myCollection = await collection(firestore_db,"appointments")
+  const querySnapshot = await getDocs(myCollection)
+  
+  const appointmentsByDay = []
+  querySnapshot.forEach((doc) => {
+    appointmentsByDay.push({id: doc.id, ...doc.data()})
+  })  
+
+  return appointmentsByDay;
+}
+
 export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time){
     const data = {
+        appointment_number : "appointment_0",
         user_name: user_name,
-        user_emai: user_emai,
+        user_email: user_emai,
         user_phone: user_phone,
         rdv_date: rdv_date,
         rdv_time: rdv_time,
@@ -162,13 +204,14 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
           else{
             //get # of existing appointments 
             number_of_existing_appointments = response.all_appointments.length 
+            data.appointment_number = `appointment_${number_of_existing_appointments}`
           }
 
            // add new appointment to array
            // no need to check if already exists because of 'disableb' proprety of the selected stuff
            const appointmentRef = doc(firestore_db, "appointments", rdv_date);
            updateDoc(appointmentRef, {
-           all_appointments: arrayUnion({ [`appointment_${number_of_existing_appointments}`]: data })
+           all_appointments: arrayUnion({ data })
        });
 
         }
@@ -187,65 +230,148 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
       return(e)
     }
   
-  }
-
-
-export async function addUser(email,phone,sex,caracteristics,newsletterSubscription,acceptedTerms,accountCompleted){
-  const data = {
-    account_completed: accountCompleted,
-    caracteristics: caracteristics,
-    email: email,
-    newsletter_subscription: newsletterSubscription,
-    phone_number: phone,
-    sex: sex,
-    notifications: [],
-    my_match_sex : "/",
-    my_match_id : "/",
-    accepted_terms_of_service : acceptedTerms,
-    account_created_timestamp : Timestamp.now()
-  }
-
-  try{
-    addDoc(collection(firestore_db,"user_data"),data)
-    return(true)
-  }catch(e){
-    addError({
-      e_message: "Failed to add user to user_data firestore table.",
-      program_execution: "Failed to execute firebase.addUser(...)",
-      program_function_error: `addUser(${email},${phone},${sex},${caracteristics},${newsletterSubscription},${accountCompleted})`,
-      program_page: "-",
-      user_email: `${email}`
-    })
-    return(e)
-  }
-
 }
 
-export async function updateUser(docID,data){
-  const documentRef = doc(firestore_db,"user_data",docID)
+export async function removeAppointment(appointment_date,appointment_number){
+  console.log(`Removing ${appointment_date},${appointment_number}`);
+  try {
+    // Get a reference to the appointments document
+    const appointmentsRef = doc(firestore_db, 'appointments', appointment_date);
 
-  updateDoc(documentRef,data).then(
-    () => {
-      console.log('successfully updated user');
-      return(true)
+    // Get the current data of the appointments document
+    const docSnap = await getDoc(appointmentsRef);
+    if (docSnap.exists()) {
+        const appointmentsData = docSnap.data();
+
+        // Find the appointment to remove
+        const updatedAppointments = appointmentsData.all_appointments.filter(appointment => {
+            return appointment.data.appointment_number !== appointment_number 
+                || appointment.data.rdv_date !== appointment_date;
+        });
+
+        // Update the appointments document with the updated appointments data
+        await updateDoc(appointmentsRef, { all_appointments: updatedAppointments });
+
+        console.log('Appointment removed successfully.');
+    } else {
+        console.log('Document does not exist.');
     }
-  ).catch(
-    (error) => {
-      addError({
-        e_message: "Failed to update data to user_data firestore table.",
-        error : `${error.message}`,
-        program_execution: "Failed to execute firebase.updateUserCaracteristics(docID,data)",
-        program_function_error: `updateUserCaracteristics(${docID},${data})`,
-        program_page: "/profile -> settingsView",
-        user_document_id: `${docID}`
-      })
-      console.log(error);
-      return(error)
-    }
-  )
+} catch (error) {
+    console.error('Error removing appointment: ', error);
+}
+}
+
+// export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time){
+//   const data = {
+//       user_name: user_name,
+//       user_emai: user_emai,
+//       user_phone: user_phone,
+//       rdv_date: rdv_date,
+//       rdv_time: rdv_time,
+//       rdv_taken_time : Timestamp.now()
+//   }
+
+//   try{
+    
+//     // check if document already existst:
+
+//     getDocumentById('appointments',rdv_date).then(
+//       (response) => {
+//         let number_of_existing_appointments = 0
+        
+//         // if it doesn't exists, create it 
+//         if(response === null){
+//           setDoc(doc(firestore_db,'appointments',rdv_date),{
+//             all_appointments : []
+//           })
+//         }
+//         else{
+//           //get # of existing appointments 
+//           number_of_existing_appointments = response.all_appointments.length 
+//         }
+
+//          // add new appointment to array
+//          // no need to check if already exists because of 'disableb' proprety of the selected stuff
+//          const appointmentRef = doc(firestore_db, "appointments", rdv_date);
+//          updateDoc(appointmentRef, {
+//          all_appointments: arrayUnion({ [`appointment_${number_of_existing_appointments}`]: data })
+//      });
+
+//       }
+//     )
+    
+
+//     return(true)
+
+//   }catch(e){
+//     addError({
+//       e_message: "Failed to add appointment to << appointments >> firestore table.",
+//       program_execution: "Failed to execute firebase.addAppointment(...)",
+//       program_function_error: `addAppointment(${user_name},${user_emai},${user_phone},${rdv_date},${rdv_time})`,
+//       program_page: "/rendez-vous",
+//     })
+//     return(e)
+//   }
+
+// }
+
+
+// export async function addUser(email,phone,sex,caracteristics,newsletterSubscription,acceptedTerms,accountCompleted){
+//   const data = {
+//     account_completed: accountCompleted,
+//     caracteristics: caracteristics,
+//     email: email,
+//     newsletter_subscription: newsletterSubscription,
+//     phone_number: phone,
+//     sex: sex,
+//     notifications: [],
+//     my_match_sex : "/",
+//     my_match_id : "/",
+//     accepted_terms_of_service : acceptedTerms,
+//     account_created_timestamp : Timestamp.now()
+//   }
+
+//   try{
+//     addDoc(collection(firestore_db,"user_data"),data)
+//     return(true)
+//   }catch(e){
+//     addError({
+//       e_message: "Failed to add user to user_data firestore table.",
+//       program_execution: "Failed to execute firebase.addUser(...)",
+//       program_function_error: `addUser(${email},${phone},${sex},${caracteristics},${newsletterSubscription},${accountCompleted})`,
+//       program_page: "-",
+//       user_email: `${email}`
+//     })
+//     return(e)
+//   }
+
+// }
+
+// export async function updateUser(docID,data){
+//   const documentRef = doc(firestore_db,"user_data",docID)
+
+//   updateDoc(documentRef,data).then(
+//     () => {
+//       console.log('successfully updated user');
+//       return(true)
+//     }
+//   ).catch(
+//     (error) => {
+//       addError({
+//         e_message: "Failed to update data to user_data firestore table.",
+//         error : `${error.message}`,
+//         program_execution: "Failed to execute firebase.updateUserCaracteristics(docID,data)",
+//         program_function_error: `updateUserCaracteristics(${docID},${data})`,
+//         program_page: "/profile -> settingsView",
+//         user_document_id: `${docID}`
+//       })
+//       console.log(error);
+//       return(error)
+//     }
+//   )
 
   
-}
+// }
 
 export async function addError(data){
     const error_data = {
