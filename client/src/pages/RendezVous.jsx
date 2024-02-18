@@ -114,14 +114,6 @@ const RdvForm = () => {
       addAppointment(fullName, email, phone, date, appointmentTime).then(
         (response) => {
           // send email to user
-          const templateParams = {
-            user_name: fullName,
-            appointment_date: date,
-            appointment_time: appointmentTime,
-            selected_service: selectedServices,
-            user_email: email
-        };
-    
         emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
             .then((result) => {
                 console.log('Email sent successfully:', result.text);

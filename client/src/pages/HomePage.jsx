@@ -2,6 +2,8 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import emailjs from '@emailjs/browser';
+
 import DATA from '../data/data.json'
 import SERVICES from '../data/services.json'
 
@@ -344,16 +346,18 @@ const Contact = () => {
   const [userPhone,setUserPhone] = useState("")
   const [userMessage,setUserMessage] = useState("")
 
+  const contactFormRef = useRef()
+
   function handleSubmit(e){
     e.preventDefault()
-    const myData = {
-      user_name : userName,
-      user_email : userEmail,
-      user_phone : userPhone,
-      user_message : userMessage
-    }
-
-    console.log(myData);
+    emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, "template_hivji9c", contactFormRef.current, process.env.REACT_APP_EMAILJS_USER_ID)
+            .then((result) => {
+                console.log('Email sent successfully:', result.text);
+                // Add any success message or logic here
+            }, (error) => {
+                console.error('Email sending failed:', error.text);
+                // Add any error handling logic here
+            });
   }
 
   return(
@@ -399,14 +403,14 @@ const Contact = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className='grid 2xl:min-w-[550px] py-5'>
+      <form ref={contactFormRef} onSubmit={handleSubmit} className='grid 2xl:min-w-[550px] py-5'>
 
         <div className='grid px-10 gap-5'>
-          <input id='user_full_name' onChange={(e)=>setUserName(e.target.value)} type='text' required placeholder='Nom et Prénom' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
-          <input id='user_email' onChange={(e)=>setUserEmail(e.target.value)} type='email' required placeholder='example@email.com' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
-          <input id='user_phone' onChange={(e)=>setUserPhone(e.target.value)} type='tel' pattern="[0-9]+" required placeholder='GSM' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
+          <input id='user_name' name='user_name' onChange={(e)=>setUserName(e.target.value)} type='text' required placeholder='Nom et Prénom' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
+          <input id='user_email' name='user_email' onChange={(e)=>setUserEmail(e.target.value)} type='email' required placeholder='example@email.com' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
+          <input id='user_phone' name='user_phone' onChange={(e)=>setUserPhone(e.target.value)} type='tel' pattern="[0-9]+" required placeholder='GSM' className='md:text-2xl  text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 placeholder:uppercase border-b-[0.15rem] border-white/50'/>
           
-          <textarea id='user_message' onChange={(e)=>setUserMessage(e.target.value)} required placeholder='Veuillez écrire votre message ici...' className='h-[100px] md:text-2xl text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 border-b-[0.15rem] border-white/50'/>
+          <textarea id='user_message' name='user_message' onChange={(e)=>setUserMessage(e.target.value)} required placeholder='Veuillez écrire votre message ici...' className='h-[100px] md:text-2xl text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 border-b-[0.15rem] border-white/50'/>
         </div>
 
         <div className='grid my-auto mx-10 pt-10'>
