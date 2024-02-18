@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addAppointment, getAppointmentDate, getTakenHoursOfDay } from '../firebase'
+import { addAppointment, getAppointmentDate, getTakenHoursOfDay, isDayLocked } from '../firebase'
 
 import DATA from '../data/data.json'
 
@@ -29,6 +29,7 @@ const RdvForm = () => {
 
   const [appointmentHours, setAppointmentHours] = useState([])      // contains : [hour,bool] where bool => is taken?
 
+  const [lockedDay,setLockedDay] = useState(false) 
 
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -50,8 +51,16 @@ const RdvForm = () => {
     let chosen_day_of_week = getDayOfWeek(new Date(e.target.value)) 
 
     // get existing appointments in db
+      // check if the day is locked
+    const locked_day = await isDayLocked(formatted_date)
+    setLockedDay(locked_day)
 
-    let taken_hours = await getTakenHoursOfDay(formatted_date)
+    let taken_hours = []
+
+    if(locked_day === false) {
+      taken_hours = await getTakenHoursOfDay(formatted_date)
+    }
+    
     // console.log(taken_hours);
 
     // put all of them at IsTaken = false
@@ -137,7 +146,7 @@ const RdvForm = () => {
         {appointmentHours.map((value,key) => {
           return(
             <div id={`hourTab_${key}`} className={`grid border-[0.15rem] ${clickedHour[0]===`hourTab_${key}` && clickedHour[1] ? "border-black" : "border-transparent"}`} onClick={(e)=>{setClickedHour([e.currentTarget.id,true])}}>
-              <HourTab key={key}  Value={value[0]} IsTaken={value[1]} ReferenceValues={[appointmentTime,setAppointmentTime]} />
+              <HourTab key={key}  Value={value[0]} IsTaken={value[1] || lockedDay} ReferenceValues={[appointmentTime,setAppointmentTime]} />
             </div>
           )
         })}

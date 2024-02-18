@@ -208,16 +208,19 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
           // if it doesn't exists, create it 
           if(response === null){
             setDoc(doc(firestore_db,'appointments',rdv_date),{
-              all_appointments : []
+              all_appointments : [],
+              locked : false
             })
           }
           else{
             //get # of existing appointments 
             number_of_existing_appointments = response.all_appointments.length
-            // get last appointment number 
-            const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
-            const last_appoint_number =  parseInt(last_appoint.split("_")[1])
-            data.appointment_number = `appointment_${last_appoint_number+1}`
+            // get last appointment number
+            if(number_of_existing_appointments > 0 ) {
+              const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
+              const last_appoint_number =  parseInt(last_appoint.split("_")[1])
+              data.appointment_number = `appointment_${last_appoint_number+1}`
+            }
           }
 
            // add new appointment to array
@@ -246,8 +249,6 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
   
 }
 
-
-
 export async function removeAppointment(appointment_date,appointment_number){
   console.log(`Removing ${appointment_date},${appointment_number}`);
   try {
@@ -271,10 +272,10 @@ export async function removeAppointment(appointment_date,appointment_number){
 
         // check if the updated version has an empty array
         const db_appointments = await getDocumentById('appointments',appointment_date)
-        if(db_appointments.all_appointments.length === 0){
+        if(db_appointments.all_appointments.length === 0 && db_appointments.locked === false){
           removeDocumentByID(appointment_date)
         }
-        
+
 
     } else {
         console.log('Document does not exist.');
@@ -282,6 +283,51 @@ export async function removeAppointment(appointment_date,appointment_number){
 } catch (error) {
     console.error('Error removing appointment: ', error);
 }
+}
+
+export async function isDayLocked(day){
+  const myDocument = await getDocumentById('appointments',day)
+
+  if(myDocument === null){
+    return(false)
+  }
+  else{
+    return(myDocument.locked)
+  }
+
+}
+
+export async function lockDays(days_list){
+    days_list.forEach( day => {
+    lockDay(day)
+  } )
+
+
+  return(true)
+}
+
+async function lockDay(documentID) {
+  try {
+      const appointmentsRef = doc(firestore_db, 'appointments', documentID);
+      const docSnap = await getDoc(appointmentsRef);
+
+      if (docSnap.exists()) {
+          // If document exists, update the 'locked' field to true
+          await updateDoc(appointmentsRef, {
+              locked: true
+          });
+          console.log(`Day ${documentID} locked successfully.`);
+      } else {
+          // If document doesn't exist, create a new document with 'all_appointments' and 'locked' fields
+          await setDoc(appointmentsRef, {
+              all_appointments: [],
+              locked: true
+          }, { merge: true });
+          console.log(`New document created for day ${documentID} with 'locked' field set to true.`);
+      }
+  } catch (error) {
+      console.error('Error locking day: ', error);
+  }
 }
 
 // export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time){

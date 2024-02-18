@@ -10,7 +10,9 @@
         - list of appointments (date,hour,user data)                                        OK
         - appointment cancelling (delete appointment from the selected day)                 OK
             - if document.all_appointments is empty then remove it                          OK
-        - bloquer des jours (fill the day with empty appointments)
+    
+        - bloquer des jours (update 'locked' to true and don't let users take that day)
+            - show in list the locked days with 'special' effect
         
         - envoyer rappel rdv aux clients par email (connection EmailJS)
 
@@ -18,4 +20,5 @@
 
 
     - apply Design on Appointment System
+        - add up/down arrow to clickable components
     - finish Menu Bar (Burger Version)

@@ -41,10 +41,9 @@
   
   font-barlow font-bold tracking-wide
 
-  md:text-2xl lg:text-4xl
-  
-  md:px-4 md:py-3
-  lg:px-7 lg:py-9
+  md:text-xl
+
+  md:p-4
 }
 
 .button-transparent-white-small:hover{
@@ -87,10 +86,9 @@
 
   font-barlow font-bold tracking-wide
 
-  md:text-2xl lg:text-3xl
+  md:text-xl
 
-  md:px-5 md:py-7
-  lg:px-7 lg:py-9
+  md:p-4
 }
 
 .button-filled-small:hover {
@@ -110,13 +108,19 @@
   
   font-barlow font-bold tracking-wide
 
-  md:text-2xl lg:text-4xl
-  
-  md:px-4 md:py-3
-  lg:px-7 lg:py-9
+  md:text-xl
+
+  md:p-4
 }
 
 .hero-bg {
+  background-image: url("./resources/35-gray-filter-vintage-frame-salon-tools-wooden-table-jobs-career-concept.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.admin-bg {
   background-image: url("./resources/35-gray-filter-vintage-frame-salon-tools-wooden-table-jobs-career-concept.png");
   background-position: center;
   background-size: cover;
