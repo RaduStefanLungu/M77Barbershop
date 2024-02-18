@@ -78,6 +78,29 @@
   transition-all duration-[400ms]
 }
 
+.button-filled-small {
+  @apply
+  text-center text-black
+  bg-[var(--colorHightlight)]
+  border-[var(--colorHightlight)] border-[0.15rem]
+  px-2 py-2
+
+  font-barlow font-bold tracking-wide
+
+  md:text-2xl lg:text-3xl
+
+  md:px-5 md:py-7
+  lg:px-7 lg:py-9
+}
+
+.button-filled-small:hover {
+  @apply
+  text-black
+  bg-[var(--colorHightlight-dark)]
+  border-[var(--colorHightlight-dark)] border-[0.15rem]
+  transition-all duration-[400ms]
+}
+
 .button-deleteRDV {
   @apply
   text-center text-black

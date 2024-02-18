@@ -82,6 +82,16 @@ const getDocumentById = async (collectionName, documentId) => {
   }
 };
 
+async function removeDocumentByID(docID) {
+  try {
+      const docRef = doc(firestore_db, 'appointments', docID);
+      await deleteDoc(docRef);
+      console.log(`Document with ID ${docID} successfully removed.`);
+  } catch (error) {
+      console.error('Error removing document: ', error);
+  }
+}
+
 // export async function getUsers(){
 //   const myCollection = await collection(firestore_db,"user_data")
 //   const querySnapshot = await getDocs(myCollection)
@@ -203,16 +213,20 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
           }
           else{
             //get # of existing appointments 
-            number_of_existing_appointments = response.all_appointments.length 
-            data.appointment_number = `appointment_${number_of_existing_appointments}`
+            number_of_existing_appointments = response.all_appointments.length
+            // get last appointment number 
+            const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
+            const last_appoint_number =  parseInt(last_appoint.split("_")[1])
+            data.appointment_number = `appointment_${last_appoint_number+1}`
           }
 
            // add new appointment to array
            // no need to check if already exists because of 'disableb' proprety of the selected stuff
+           
            const appointmentRef = doc(firestore_db, "appointments", rdv_date);
            updateDoc(appointmentRef, {
            all_appointments: arrayUnion({ data })
-       });
+            });
 
         }
       )
@@ -231,6 +245,8 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
     }
   
 }
+
+
 
 export async function removeAppointment(appointment_date,appointment_number){
   console.log(`Removing ${appointment_date},${appointment_number}`);
@@ -251,8 +267,15 @@ export async function removeAppointment(appointment_date,appointment_number){
 
         // Update the appointments document with the updated appointments data
         await updateDoc(appointmentsRef, { all_appointments: updatedAppointments });
-
         console.log('Appointment removed successfully.');
+
+        // check if the updated version has an empty array
+        const db_appointments = await getDocumentById('appointments',appointment_date)
+        if(db_appointments.all_appointments.length === 0){
+          removeDocumentByID(appointment_date)
+        }
+        
+
     } else {
         console.log('Document does not exist.');
     }

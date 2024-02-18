@@ -52,7 +52,7 @@ const RdvForm = () => {
     // get existing appointments in db
 
     let taken_hours = await getTakenHoursOfDay(formatted_date)
-    console.log(taken_hours);
+    // console.log(taken_hours);
 
     // put all of them at IsTaken = false
     DATA.horaire.map(
@@ -81,7 +81,7 @@ const RdvForm = () => {
     e.preventDefault()
 
 
-    console.log(appointmentTime.length);
+    // console.log(appointmentTime.length);
     // check if everything is completed (by default all but appointmentTime will be selected because of 'required' )
     if(appointmentTime.length <= 0) {
       setErrorMessage("Veuillez choisir une heure disponible")

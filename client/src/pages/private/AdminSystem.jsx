@@ -4,13 +4,17 @@ import { getAllAppointments, getAllAppointmentsMonotone, removeAppointment } fro
 
 import { firestore_db } from '../../firebase'; // Assuming you have imported your Firestore instance as firestore_db
 import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 
 
 export default function AdminSystem() {
 
   return (
     <div className='grid bg-[var(--colorTemplate2)]'>
-      <LogOutButton/>  
+      <header className='flex gap-5 justify-end px-4 py-2'>
+        <HomeButton/>
+        <LogOutButton/>
+      </header>
 
       <AppointmentsList/>
 
@@ -28,7 +32,13 @@ const LogOutButton = () => {
   }
 
   return(
-    <button className='bg-blue-500 text-white py-2 px-10 rounded-xl mx-auto my-5 hover:bg-blue-900 transition-all duration-150' onClick={handleLogout}>Déconnection</button>
+    <button className='button-filled-small my-auto' onClick={handleLogout}>Déconnection</button>
+  )
+}
+
+const HomeButton = () => {
+  return(
+    <Link to={'/'} className='button-transparent-white-small my-auto' >Acceuil</Link>
   )
 }
 
@@ -65,9 +75,9 @@ const AppointmentsList = () => {
       }
 
       return(
-        <div className='grid bg-green-300 p-2 font-baskerville'>
+        <div className='grid bg-[var(--colorHightlight)] p-5 rounded-lg font-baskerville'>
 
-          <div className='flex' onClick={()=>{setClickedApp(!clickedApp)}}>
+          <div className='flex border-b-[0.05rem] border-[var(--colorTemplate2)]' onClick={()=>{setClickedApp(!clickedApp)}}>
             <label>Heure : {ATime}</label>
           </div>
 
@@ -177,9 +187,9 @@ const AppointmentsList = () => {
 
 
   return(
-    <div className='grid px-2'>
+    <div className='grid px-2 h-screen content-start'>
       <h3 className='text-title text-3xl text-[var(--colorTemplate1)] py-2'>Admin Rendez-Vous</h3>
-      <div className='grid gap-5'>
+      <div className='grid gap-5 overflow-auto'>
         {
           allAppointments.map(
             (value,key) => {
