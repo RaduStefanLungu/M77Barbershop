@@ -6,9 +6,11 @@
 :root {
   --colorHightlight : #dec7a6;
   --colorHightlight-dark : #c09b6b;
-  
+  --colorHightlight-transparent-50 : #dec7a680;
+
   --colorTemplate1 : #F8F5EF; 
   --colorTemplate2 : #2E2C2D;
+  --colorTemplate2-dark : #252324;
 }
 
 
@@ -136,4 +138,30 @@
 .text-para {
   @apply
   font-open-sans tracking-tight
+}
+
+.input-custom {
+  @apply
+  border-transparent border-2
+  px-2 py-1 
+  rounded-xl
+
+  bg-[var(--colorTemplate2)]
+
+  placeholder:text-gray-200/50
+  text-[var(--colorTemplate1)]
+
+}
+
+.input-custom-2 {
+  @apply
+  border-transparent border-2
+  px-2 py-1 
+  rounded-xl
+
+  bg-[var(--colorTemplate1)]
+
+  placeholder:text-black/50
+  text-[var(--colorTemplate2)]
+
 }

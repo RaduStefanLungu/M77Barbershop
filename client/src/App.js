@@ -15,7 +15,7 @@ function App() {
       
       <AuthProvider>
 
-        {/* <Header/> */}
+        <Header/>
 
         <Routes>
 

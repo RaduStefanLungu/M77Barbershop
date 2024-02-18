@@ -211,9 +211,13 @@ const AppointmentsList = () => {
           allAppointments.map(
             (value,key) => {
               
-              return(
-                <DayTab Data={value} key={key} />
-              )
+              // remove return only if it's >= today
+
+              if(convertDateFormat(value.id) >= todayDate){
+                return(
+                  <DayTab Data={value} key={key} />
+                )
+              }
             }
           )
         }

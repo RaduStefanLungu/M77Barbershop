@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { addAppointment, getAppointmentDate, getTakenHoursOfDay, isDayLocked } from '../firebase'
+import emailjs from '@emailjs/browser';
+
+import { GiComb,GiBeard } from "react-icons/gi";
+import { CiGift } from "react-icons/ci";
 
 import DATA from '../data/data.json'
+import SERVICES from '../data/services.json'
 
 // TODO make user to render appointment if it is available
 
 export default function RendezVous() {
   return (
-    <div>
-      RendezVous
+    <div className='min-h-screen hero-bg'>
+      
+      <div className='container mx-auto py-10 px-2'>
+        
+        <RdvForm/>
 
-      <RdvForm/>
+      </div>
 
     </div>
   )
@@ -24,6 +32,7 @@ const RdvForm = () => {
   const [phone,setPhone] = useState('')
   const [date,setDate] = useState('')
   const [appointmentTime, setAppointmentTime] = useState('')
+  const [selectedServices,setSelectedServices] = useState("")
 
   const [today,setToday] = useState(new Date().toISOString().split('T')[0])
 
@@ -32,6 +41,8 @@ const RdvForm = () => {
   const [lockedDay,setLockedDay] = useState(false) 
 
   const [errorMessage, setErrorMessage] = useState("")
+
+  const rendezVousForm = useRef()
 
   // when date is set query from db all the free appointment spots
 
@@ -95,9 +106,32 @@ const RdvForm = () => {
     if(appointmentTime.length <= 0) {
       setErrorMessage("Veuillez choisir une heure disponible")
     }
+    if(selectedServices.length <= 0){
+      setErrorMessage("Veuillez choisir un service")
+    }
     else{
       // if all good : add appointment to db
-      addAppointment(fullName, email, phone, date, appointmentTime)
+      addAppointment(fullName, email, phone, date, appointmentTime).then(
+        (response) => {
+          // send email to user
+          const templateParams = {
+            user_name: fullName,
+            appointment_date: date,
+            appointment_time: appointmentTime,
+            selected_service: selectedServices,
+            user_email: email
+        };
+    
+        emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
+            .then((result) => {
+                console.log('Email sent successfully:', result.text);
+                // Add any success message or logic here
+            }, (error) => {
+                console.error('Email sending failed:', error.text);
+                // Add any error handling logic here
+            });
+        }
+      )
     }
 
 
@@ -123,7 +157,7 @@ const RdvForm = () => {
     }
     
     return(
-      <button className={`${IsTaken? "bg-red-300": "bg-green-300"} border-[0.15rem] `} disabled={IsTaken} onClick={handleChosenHour}>
+      <button className={`${IsTaken? "bg-red-300 text-[var(--colorTemplate2)]": "bg-green-300 text-[var(--colorTemplate1)]"} border-[0.15rem] border-transparent rounded-lg`} disabled={IsTaken} onClick={handleChosenHour}>
         {Value}
       </button>
     )
@@ -131,16 +165,23 @@ const RdvForm = () => {
 
   const [clickedHour,setClickedHour] = useState(["",false])
 
+  
 
   return(
-    <form className='grid bg-gray-300 py-10' onSubmit={handleSubmit}>
+    <form ref={rendezVousForm} className='grid bg-[var(--colorHightlight-transparent-50)] pt-5 pb-10 px-2' onSubmit={handleSubmit}>
+      <h3 className='text-title text-white text-3xl pb-5'>Rendez-Vous</h3>
       <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
       <div className='grid gap-5'>
-        <input type='text' required placeholder='Nom et Prénom' className='border-black border-2' onChange={(e)=>{setFullName(e.target.value)}}/>
-        <input type='text' required placeholder='Email' className='border-black border-2' onChange={(e)=>{setEmail(e.target.value)}}/>
-        <input type='text' required placeholder='GSM' className='border-black border-2' onChange={(e)=>{setPhone(e.target.value)}} />
-        <input type='date' id='chosen_date' required min={today} className='border-black border-2' onChange={handleDateChosen}/>
+        <input type='text' name='user_name' required placeholder='Nom et Prénom' className='input-custom' onChange={(e)=>{setFullName(e.target.value)}}/>
+        <input type='text' name='user_email' required placeholder='Email' className='input-custom' onChange={(e)=>{setEmail(e.target.value)}}/>
+        <input type='text' required placeholder='GSM' className='input-custom' onChange={(e)=>{setPhone(e.target.value)}} />
+        <input type='date' id='chosen_date' required min={today} className='input-custom-2' onChange={handleDateChosen}/>
+        <input name='appointment_date' className='hidden' value={date}/>
+        <input name='appointment_time' className='hidden' value={appointmentTime}/>
+        <input name='selected_service' className='hidden' value={selectedServices}/>
       </div>
+
+      
 
       <div className='py-5 grid gap-1 grid-cols-5'>
         {appointmentHours.map((value,key) => {
@@ -152,8 +193,60 @@ const RdvForm = () => {
         })}
       </div>
 
-      <button type='submit' className='bg-red-300 py-2 m-4'>Réserver</button>
+      <div className='grid pt-5'>
+        <label className='text-title text-[var(--colorTemplate1)] text-3xl pb-5'>Choissiez le service</label>
+        <div className='grid justify-center gap-10'>
+          <ServiceGroup GroupName={SERVICES.services_by_group[0].group} GroupIcon={<GiComb/>} Services={SERVICES.services_by_group[0].services} SelectedServiceList={[selectedServices,setSelectedServices]}/>
+          <ServiceGroup GroupName={SERVICES.services_by_group[1].group} GroupIcon={<GiBeard/>} Services={SERVICES.services_by_group[1].services} SelectedServiceList={[selectedServices,setSelectedServices]} />
+          <ServiceGroup GroupName={"Packs"} GroupIcon={<CiGift/>} Services={SERVICES.packages} SelectedServiceList={[selectedServices,setSelectedServices]} />
+        </div>
+      </div>
+
+      <button type='submit' className='button-filled-small'>Réserver</button>
 
     </form>
+  )
+}
+
+const ServiceGroup = ({GroupName,Services,GroupIcon,SelectedServiceList}) => {
+
+
+  return(
+    <div className='grid'>
+
+      <div className='p-5 bg-[var(--colorTemplate2)] grid justify-center m-auto'>
+        <div className='grid justify-center text-[var(--colorTemplate1)] text-5xl text-center'>
+            {GroupIcon}
+          </div>
+        <label className='text-title text-[var(--colorTemplate1)] text-xl text-center'>
+          {GroupName}
+        </label>
+      </div>
+
+      <div id='section_holder' className='grid gap-5 py-5'>
+          {
+            Services.map((value,key) => {
+
+              function handleClickedService(e){
+                e.preventDefault()
+                SelectedServiceList[1](value.name)
+              }
+
+              return(
+                <div key={key} id={`service_${key}`} className={`grid grid-flow-col p-2 bg-[var(--colorTemplate2)] hover:bg-[var(--colorTemplate2-dark)] transition-all duration-150 text-[var(--colorTemplate1)] ${SelectedServiceList[0] === value.name ? "border-[var(--colorTemplate1)] border-[0.10rem]" : ""}`} onClick={handleClickedService}>
+                  <div>
+                    <h3 className='text-lg uppercase tracking-wider lg:text-xl'>{value.name}</h3>
+                    <p className='uppercase text-sm tracking-wider lg:text-lg'>{value.description.length > 0 ? `(${value.description})` : ""}</p>
+                  </div>
+                  <p className=' text-center my-auto ml-auto px-5 lg:text-2xl'>
+                    {value.price}€
+                  </p>
+                </div>
+              )
+            })
+          }
+        </div>
+
+    </div>
   )
 }

@@ -64,11 +64,13 @@
     "packages" : [
         {
             "name" : "cheveux + traçage",
-            "price" : 25
+            "price" : 25,
+            "description" : ""
         },
         {
             "name" : "cheveux + taille et traçage",
-            "price" : 27
+            "price" : 27,
+            "description" : ""
         }
     ]
 }
