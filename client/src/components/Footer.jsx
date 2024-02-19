@@ -28,6 +28,10 @@ export default function Footer() {
             
             <div className='grid md:flex gap-5 py-5 md:mx-auto'>
 
+              <div id='adresse' className='grid'>
+                <label className='font-bold py-1'>Adresse : {DATA.street_address} {DATA.street_number}, {DATA.postal_code} {DATA.city}</label>
+              </div>
+
               <div id='horaire' className='grid'>
                 <label className='font-bold py-1'>Horaire</label>
                 <div className='grid'>
