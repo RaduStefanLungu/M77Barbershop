@@ -342,11 +342,20 @@ async function unlockDay(documentID) {
 
       if (docSnap.exists()) {
           // If document exists, update the 'locked' field to true
+            
           await updateDoc(appointmentsRef, {
               locked: false
           });
           console.log(`Day ${documentID} locked successfully.`);
       }
+
+      // if document empty, remove it 
+      const db_appointments = await getDocumentById('appointments',documentID)
+      if(db_appointments.all_appointments.length === 0 && db_appointments.locked === false){
+        removeDocumentByID(documentID)
+      }
+
+
   } catch (error) {
       console.error('Error locking day: ', error);
   }
