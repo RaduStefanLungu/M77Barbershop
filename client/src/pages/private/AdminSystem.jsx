@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { getAllAppointments, getAllAppointmentsMonotone, lockDays, removeAppointment } from '../../firebase'
+
+import emailjs from '@emailjs/browser';
 
 import { firestore_db } from '../../firebase'; // Assuming you have imported your Firestore instance as firestore_db
 import { collection, doc, onSnapshot } from 'firebase/firestore';
@@ -69,11 +71,25 @@ const AppointmentsList = () => {
       }
       
       const [clickedApp,setClickedApp] = useState(false)
+      const [sendMessage,setSendMessage] = useState("")
 
+      const rappelFormRef = useRef()
 
       function handleDeleteRDV(e){
         e.preventDefault();
         removeAppointment(ADay,ANumber)
+      }
+
+      function handleRappel(e){
+        e.preventDefault();
+        emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, "template_yy6hcmb", rappelFormRef.current, process.env.REACT_APP_EMAILJS_USER_ID)
+            .then((result) => {
+                setSendMessage(`Email envoyé : ${result.text} !` )
+                // Add any success message or logic here
+            }, (error) => {
+                console.error('Email sending failed:', error.text);
+                // Add any error handling logic here
+            });
       }
 
       return(
@@ -102,10 +118,19 @@ const AppointmentsList = () => {
             </div>
           </div>
           
+          <p className='text-center font-bold'>{sendMessage}</p>
           <div className='grid grid-flow-col gap-5 justify-start pt-5'>
-            <button className='button-transparent-white-small'>Envoyer Rappel</button>
+            
+            <button className='button-transparent-white-small' onClick={handleRappel}>Envoyer Rappel</button>
             <button className='button-deleteRDV' onClick={handleDeleteRDV}>Supprimer RDV</button>
           </div> 
+
+          <form ref={rappelFormRef} className='hidden'>
+            <input name="user_email" value={Uemail}></input>
+            <input name="user_name" value={Uname}></input>
+            <input name="appointment_date" value={ADay}></input>
+            <input name="appointment_time" value={ATime}></input>
+          </form>
           
         </div>
       )
@@ -204,7 +229,7 @@ const AppointmentsList = () => {
 }
 
   return(
-    <div className='grid p-2 h-screen content-start m-10 md:mx-32 lg:mx-48 xl:mx-80'>
+    <div className='grid p-2 h-screen content-start m-5 md:mx-32 lg:mx-48 xl:mx-80'>
       <h3 className='text-title text-3xl text-[var(--colorTemplate1)] py-2 md:text-5xl'>Admin - Rendez-Vous</h3>
       <div className='grid gap-5 overflow-auto'>
         {
