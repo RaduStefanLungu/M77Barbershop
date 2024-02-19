@@ -15,7 +15,7 @@ export default function RendezVous() {
     <div className='min-h-screen hero-bg'>
       
       <div className='container mx-auto py-10 px-2'>
-        
+
         <RdvForm/>
 
       </div>
@@ -32,7 +32,7 @@ const RdvForm = () => {
   const [phone,setPhone] = useState('')
   const [date,setDate] = useState('')
   const [appointmentTime, setAppointmentTime] = useState('')
-  const [selectedServices,setSelectedServices] = useState("")
+  const [selectedServices,setSelectedServices] = useState('')
 
   const [today,setToday] = useState(new Date().toISOString().split('T')[0])
 
@@ -41,6 +41,7 @@ const RdvForm = () => {
   const [lockedDay,setLockedDay] = useState(false) 
 
   const [errorMessage, setErrorMessage] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
 
   const rendezVousForm = useRef()
 
@@ -103,11 +104,8 @@ const RdvForm = () => {
 
     // console.log(appointmentTime.length);
     // check if everything is completed (by default all but appointmentTime will be selected because of 'required' )
-    if(appointmentTime.length <= 0) {
-      setErrorMessage("Veuillez choisir une heure disponible")
-    }
-    if(selectedServices.length <= 0){
-      setErrorMessage("Veuillez choisir un service")
+    if(appointmentTime.length <= 0 || selectedServices.length <= 0) {
+      setErrorMessage("Veuillez choisir une heure disponible et un service")
     }
     else{
       // if all good : add appointment to db
@@ -116,7 +114,8 @@ const RdvForm = () => {
           // send email to user
         emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
             .then((result) => {
-                console.log('Email sent successfully:', result.text);
+                setSuccessMessage("Votre réservation à été prise en compte, veuillez vérifier votre email !")
+                setErrorMessage("")
                 // Add any success message or logic here
             }, (error) => {
                 console.error('Email sending failed:', error.text);
@@ -139,8 +138,6 @@ const RdvForm = () => {
     }
   };
 
-
-
   const HourTab = ({Value,IsTaken,ReferenceValues}) => {
     
     function handleChosenHour(e){
@@ -160,9 +157,8 @@ const RdvForm = () => {
   
 
   return(
-    <form ref={rendezVousForm} className='grid bg-[var(--colorHightlight-transparent-50)] pt-5 pb-10 px-2' onSubmit={handleSubmit}>
+    <form ref={rendezVousForm} className='grid bg-[var(--colorHightlight-transparent-50)] pt-5 pb-10 px-2 max-w-[500px] mx-auto' onSubmit={handleSubmit}>
       <h3 className='text-title text-white text-3xl pb-5'>Rendez-Vous</h3>
-      <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
       <div className='grid gap-5'>
         <input type='text' name='user_name' required placeholder='Nom et Prénom' className='input-custom' onChange={(e)=>{setFullName(e.target.value)}}/>
         <input type='text' name='user_email' required placeholder='Email' className='input-custom' onChange={(e)=>{setEmail(e.target.value)}}/>
@@ -194,6 +190,9 @@ const RdvForm = () => {
         </div>
       </div>
 
+
+      <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
+      <p className='text-center text-green-500 bg-white'>{successMessage}</p>
       <button type='submit' className='button-filled-small'>Réserver</button>
 
     </form>

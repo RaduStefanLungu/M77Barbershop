@@ -16,13 +16,27 @@
         
         - envoyer rappel rdv aux clients par email (connection EmailJS)                     OK
 
-        -> fix refreshing on new appointment added (it refreshes everything not just adds something to the list)
-
 
     - apply Design on Appointment System                                                    OK
-        - add up/down arrow to clickable components                                         TODO
-
-
     - let user chose what service it wants (and give him price)                             OK
 
-    - finish Menu Bar (Burger Version)  OK if                                               TODO
+
+    - finish Menu Bar (Burger Version)                                                      OK
+    - add up/down arrow to clickable components (Admin/rendez-vous)                         OK
+    - fix layout tablet/pc for page /rendez-vous                                            OK
+    - add message of success on email sent (/#contact)                                      OK
+    - do not send email if incomplete values (chosen hour/service) ! (/rendez-vous)         OK       
+    - move the message of incompletion to near the submit button (/rendez-vous)             OK
+    - add success message on rezervation (/rendez-vous)                                     OK
+
+    - add design on /admin/login                                                            OK
+
+    - footer                                                                                TODO 
+        - add link to used images
+        - add admin link
+        - add social medias                                         
+    
+    - /admin/rendez-vous add button to unlock day                                           TODO
+    
+    -> fix refreshing on new appointment added (it refreshes everything not just            
+        adds something to the list)

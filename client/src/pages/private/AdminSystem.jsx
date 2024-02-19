@@ -4,8 +4,8 @@ import { getAllAppointments, getAllAppointmentsMonotone, lockDays, removeAppoint
 
 import emailjs from '@emailjs/browser';
 
-import { firestore_db } from '../../firebase'; // Assuming you have imported your Firestore instance as firestore_db
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { RiArrowDownSLine,RiArrowUpSLine } from "react-icons/ri";
+
 import { Link } from 'react-router-dom';
 
 
@@ -97,6 +97,9 @@ const AppointmentsList = () => {
 
           <div className='flex border-b-[0.05rem] border-[var(--colorTemplate2)] md:text-xl' onClick={()=>{setClickedApp(!clickedApp)}}>
             <label>Heure : {ATime}</label>
+            {
+              clickedApp? <RiArrowDownSLine className='text-2xl text-center text-[var(--colorTemplate2)] my-auto ml-2 md:ml-5'/> : <RiArrowUpSLine className='text-2xl text-center text-[var(--colorTemplate2)] my-auto ml-2 md:ml-5'/>
+            }
           </div>
 
           <div className={`${clickedApp? "grid" : "hidden"} gap-2 py-2 lg:text-xl`}>
@@ -173,8 +176,13 @@ const AppointmentsList = () => {
     return(
       <div className='grid'>
         
-        <h2 className={`${Data.locked? "bg-red-900" : "bg-[var(--colorHightlight-dark)]"} text-[var(--colorTemplate1)] font-baskerville p-2 mr-auto px-20 rounded-tr-xl md:text-xl `} 
-          onClick={()=>{setClickedTab(!clickedTab)}}>{Data.id.replace(/_/g,".")}</h2>
+        <div onClick={()=>{setClickedTab(!clickedTab)}} className={`${Data.locked? "bg-red-900" : "bg-[var(--colorHightlight-dark)]"} flex justify-between mr-auto py-2 pl-5 pr-5 rounded-tr-xl`}>
+          <h2 className={` text-[var(--colorTemplate1)] font-baskerville md:text-xl `} 
+            >{Data.id.replace(/_/g,".")}</h2>
+          {
+            clickedTab? <RiArrowDownSLine className='text-2xl text-center text-[var(--colorTemplate1)] my-auto ml-10 md:ml-20 lg:ml-32'/> : <RiArrowUpSLine className='text-2xl text-center text-[var(--colorTemplate1)] my-auto ml-10 md:ml-20 lg:ml-32'/>
+          }
+        </div>
 
         <div className={`${clickedTab? "grid" : "hidden"} ${Data.locked? "bg-red-900":"bg-[var(--colorHightlight-dark)]"} gap-5 p-5`}>
           {

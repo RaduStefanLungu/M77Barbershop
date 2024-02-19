@@ -84,7 +84,7 @@ const Hero = () => {
       </div>
       <div className='grid gap-5 py-10 md:grid-flow-col md:justify-center'>
         <Link className="button-filled uppercase" to={'/rendez-vous'} > Réservez Maintenant </Link>
-        <a className="button-transparent-white uppercase" href='#Services' > Nos Services </a>
+        <a className="button-transparent-white uppercase" href='#services' > Nos Services </a>
       </div>
     </div>
   )
@@ -348,11 +348,13 @@ const Contact = () => {
 
   const contactFormRef = useRef()
 
+  const [successMessage,setSuccessMessage] = useState("")
+
   function handleSubmit(e){
     e.preventDefault()
     emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, "template_hivji9c", contactFormRef.current, process.env.REACT_APP_EMAILJS_USER_ID)
             .then((result) => {
-                console.log('Email sent successfully:', result.text);
+                setSuccessMessage("Votre email a bien été envoyé !")
                 // Add any success message or logic here
             }, (error) => {
                 console.error('Email sending failed:', error.text);
@@ -413,6 +415,8 @@ const Contact = () => {
           <textarea id='user_message' name='user_message' onChange={(e)=>setUserMessage(e.target.value)} required placeholder='Veuillez écrire votre message ici...' className='h-[100px] md:text-2xl text-white font-barlow font-medium tracking-wider bg-transparent placeholder:px-2 border-b-[0.15rem] border-white/50'/>
         </div>
 
+
+        <p className='text-center text-green-500 bg-white my-2 md:mx-auto md:px-5'>{successMessage}</p>
         <div className='grid my-auto mx-10 pt-10'>
           <button type='submit' className='button-filled uppercase '>Envoyer</button>
         </div>
