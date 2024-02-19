@@ -38,7 +38,10 @@ export default function HomePage() {
     <div className='bg-[var(--colorTemplate2)]'>
 
       <div className='hero-bg '>
-        <Hero></Hero>        
+        <Hero></Hero>   
+        <div className='text-end px-10 text-white/70 text-xs'>
+          <a href="https://www.freepik.com/free-photo/vintage-frame-salon-tools-wooden-table-jobs-career-concept_18836292.htm" target='_blank' rel='noreferrer'>Image by rawpixel.com</a> on Freepik   
+        </div>
       </div>
 
       <div>
@@ -135,7 +138,10 @@ const AboutUs = () => {
   return(
     <div id='a-propos' className='bg-[var(--colorTemplate1)] grid lg:grid-flow-col lg:gap-10 py-10 px-5 md:py-20 md:px-16'>
 
-      <img alt='' src={AboutPhoto} className='hidden xl:block my-auto min-w-[300px]' />
+      <div className='relative grid'>
+        <img alt='' src={AboutPhoto} className='hidden xl:block my-auto min-w-[300px]' />
+        <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-[21%] right-0 text-end text-white text-xs'>Image by Freepik</a>
+      </div>
 
       <div className='grid gap-5'>
 
@@ -166,7 +172,10 @@ const AboutUs = () => {
 
         </div>
         
-        <img alt='' src={AboutPhoto} className='xl:hidden md:w-[650px] lg:w-[800px] mx-auto' />
+        <div className='relative'>
+          <img alt='' src={AboutPhoto} className='xl:hidden md:w-[650px] lg:w-[800px] mx-auto' />
+          <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-0 right-0 lg:right-10 text-end text-white text-xs'>Image by Freepik</a>
+        </div>
 
         
 
@@ -284,15 +293,21 @@ const Gallery = () => {
   return(
     <div className='bg-[var(--colorTemplate1)] flex flex-col'>
 
-      <h2 className='mx-2 pt-10 text-title uppercase text-4xl md:px-16 md:text-5xl lg:text-7xl'>Galerie</h2>
+      <h2 id='galerie' className='mx-2 pt-10 text-title uppercase text-4xl md:px-16 md:text-5xl lg:text-7xl'>Galerie</h2>
 
       <div className='flex flex-col gap-10 2xl:hidden py-10 lg:py-20'>
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
-          <img alt='' src={GALLERY_IMAGE_5} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
+          <div className='relative max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black '>
+            <img alt='' src={GALLERY_IMAGE_5} className='' />
+            <a className='absolute top-0 right-2 text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a>
+          </div>
           <img alt='' src={GALLERY_IMAGE_2} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
         </div>
 
-        <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] mx-2 md:px-0 md:mx-auto shadow-md shadow-black' />
+        <div className='relative max-w-[700px] mx-2 md:px-0 md:mx-auto shadow-md shadow-black'>
+          <img alt='' src={GALLERY_IMAGE_4} className='' />
+          <a className='absolute top-0 md:left-[5%] lg:left-[17%] text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image by senivpetro - Freepik.com</a>
+        </div>
         
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
           <img alt='' src={GALLERY_IMAGE_3} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
@@ -303,7 +318,10 @@ const Gallery = () => {
 
       <div className='hidden flex-col gap-10 xl:hidden'>
         <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
-          <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] xl:max-w-[250px] ' />
+          <div className='relative'>
+            <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] xl:max-w-[250px] ' />
+            <a className='absolute top-0 right-2 text-end text-red-500 text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a>
+          </div>
           <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto xl:mx-0' />
           <img alt='' src={GALLERY_IMAGE_2} className='max-w-[350px] xl:max-w-[250px] ' />
         </div>
@@ -319,11 +337,17 @@ const Gallery = () => {
       <div className='hidden flex-col gap-10 2xl:flex py-20'>
         <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
           <div className='relative 2xl:w-[300px]'>
-            <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+            <div className='relative'>
+              <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <a className='absolute top-0 right-5 text-end text-white text-xs z-50' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a>
+            </div>
             <img alt='' src={GALLERY_IMAGE_3} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black -rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
           </div>
 
-          <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto 2xl:mx-5 2xl:max-w-[600px] 2xl:h-[450px] shadow-md shadow-black' />
+          <div className='relative'>
+            <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto 2xl:mx-5 2xl:max-w-[600px] 2xl:h-[450px] shadow-md shadow-black' />
+            <a className='absolute bottom-0 right-7  text-end text-white/70 text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image by senivpetro - Freepik.com</a>
+          </div>
           
           <div className='relative 2xl:w-[300px]'>
             <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />

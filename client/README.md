@@ -31,12 +31,12 @@
 
     - add design on /admin/login                                                            OK
 
-    - footer                                                                                TODO 
+    - footer                                                                                OK
         - add link to used images
         - add admin link
         - add social medias                                         
     
-    - /admin/rendez-vous add button to unlock day                                           TODO
+    - /admin/rendez-vous add button to unlock day                                           OK
     
     -> fix refreshing on new appointment added (it refreshes everything not just            
         adds something to the list)

@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { getAllAppointments, getAllAppointmentsMonotone, lockDays, removeAppointment } from '../../firebase'
+import { getAllAppointments, lockDays, removeAppointment, unlockDays } from '../../firebase'
 
 import emailjs from '@emailjs/browser';
 
 import { RiArrowDownSLine,RiArrowUpSLine } from "react-icons/ri";
-
-import { Link } from 'react-router-dom';
 
 
 export default function AdminSystem() {
@@ -14,7 +12,6 @@ export default function AdminSystem() {
   return (
     <div className='grid bg-[var(--colorTemplate2)] admin-bg'>
       <header className='flex gap-5 justify-end px-4 py-2'>
-        <HomeButton/>
         <LogOutButton/>
       </header>
 
@@ -37,12 +34,6 @@ const LogOutButton = () => {
 
   return(
     <button className='button-filled-small my-auto' onClick={handleLogout}>Déconnection</button>
-  )
-}
-
-const HomeButton = () => {
-  return(
-    <Link to={'/'} className='button-transparent-white-small my-auto' >Acceuil</Link>
   )
 }
 
@@ -287,9 +278,8 @@ const LockDays = () => {
     );
 }
 
-    async function handleSubmit(e){
+    async function handleLock(e){
         e.preventDefault();
-        console.log(selectedDates);
         // Ici, vous pouvez faire ce que vous voulez avec la liste des dates sélectionnées, par exemple, les ajouter à une liste de dates bloquées.
       
         if(selectedDates.length > 0) {
@@ -311,11 +301,34 @@ const LockDays = () => {
 
       };
 
+      async function handleUnlock(e){
+        e.preventDefault();
+        // Ici, vous pouvez faire ce que vous voulez avec la liste des dates sélectionnées, par exemple, les ajouter à une liste de dates bloquées.
+      
+        if(selectedDates.length > 0) {
+          let formatted_dates_list = []
+          selectedDates.forEach(
+            (element) => {
+              let splitted_date = element.split('-')
+              let formatted_date = splitted_date[2] + "_" + splitted_date[1] + "_" + splitted_date[0]
+              formatted_dates_list.push(formatted_date)
+            }
+          )
+          const response = await unlockDays(formatted_dates_list)
+          
+          if(response) {
+            setValidMessage("Vous avez débloqué les journées sélectionnés !")
+          }
+
+        }
+
+      };
+
   return(
     <div className='grid px-2 h-screen content-start md:mx-32 lg:mx-48 xl:mx-80'>
       <h3 className='text-title text-3xl text-[var(--colorTemplate1)] py-2 md:text-5xl'>Admin - Réservation Jours</h3>
 
-      <form onSubmit={handleSubmit} className='grid'>
+      <form className='grid'>
             <label htmlFor="datePicker" className='text-white py-2'>Sélectionnez le(s) jour(s) à bloquer :</label>
             
             <DateSelector ListReferences={[selectedDates,setSelectedDates]}/>
@@ -324,8 +337,9 @@ const LockDays = () => {
             <p className={`text-green-500 text-center py-5 ${validMessage.length > 0 ? "border-y-[0.10rem]" : ""} border-white mb-5`}>{validMessage}</p>
 
             <div className='flex justify-center gap-5'>
-              <button className='button-transparent-white-small' type='submit'>Bloquer</button>
-              <button className='button-deleteRDV' onClick={()=>{setSelectedDates([])}}>Supprimer tout</button>
+              <button className='button-transparent-white-small' onClick={handleLock}>Bloquer</button>
+              <button className='button-transparent-white-small' onClick={handleUnlock}>Débloquer</button>
+              <button className='button-deleteRDV' onClick={(e)=>{e.preventDefault();setSelectedDates([])}}>Supprimer tout</button>
             </div>
         </form>
 

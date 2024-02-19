@@ -301,9 +301,14 @@ export async function lockDays(days_list){
     days_list.forEach( day => {
     lockDay(day)
   } )
-
-
   return(true)
+}
+
+export async function unlockDays(days_list){
+  days_list.forEach( day => {
+  unlockDay(day)
+} )
+return(true)
 }
 
 async function lockDay(documentID) {
@@ -324,6 +329,23 @@ async function lockDay(documentID) {
               locked: true
           }, { merge: true });
           console.log(`New document created for day ${documentID} with 'locked' field set to true.`);
+      }
+  } catch (error) {
+      console.error('Error locking day: ', error);
+  }
+}
+
+async function unlockDay(documentID) {
+  try {
+      const appointmentsRef = doc(firestore_db, 'appointments', documentID);
+      const docSnap = await getDoc(appointmentsRef);
+
+      if (docSnap.exists()) {
+          // If document exists, update the 'locked' field to true
+          await updateDoc(appointmentsRef, {
+              locked: false
+          });
+          console.log(`Day ${documentID} locked successfully.`);
       }
   } catch (error) {
       console.error('Error locking day: ', error);

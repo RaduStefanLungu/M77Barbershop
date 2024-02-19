@@ -37,10 +37,11 @@ export default function Header() {
 
                 </div>
             </div>
-            <div className={`${openBurger? "block" : "hidden"} md:hidden absolute bg-black/75 top-[50px] h-screen w-screen grid justify-center content-center gap-10 text-[var(--colorTemplate1)]`}>
+            <div className={`${openBurger? "block" : "hidden"} md:hidden absolute bg-black/85 top-[50px] h-screen w-screen grid justify-center content-center gap-10 text-[var(--colorTemplate1)]`}>
                 <a href='/' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-4xl text-[var(--colorHightlight)] hover:text-[var(--colorHightlight-dark)] transition-all duration-150' onClick={()=>{setOpenBurger(false)}}>Accueil</a>
                 <a href='/#a-propos' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150' onClick={()=>{setOpenBurger(false)}}>A propos</a>
                 <a href='/#services' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150' onClick={()=>{setOpenBurger(false)}}>Services</a>
+                <a href='/#galerie' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150' onClick={()=>{setOpenBurger(false)}}>Galerie</a>
                 <a href='/#contact' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150' onClick={()=>{setOpenBurger(false)}}>Contact</a>
             </div>
 
@@ -48,6 +49,7 @@ export default function Header() {
                 <a href='/' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl text-[var(--colorHightlight)] hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Accueil</a>
                 <a href='/#a-propos' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>A propos</a>
                 <a href='/#services' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Services</a>
+                <a href='/#galerie' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Galerie</a>
                 <a href='/#contact' className='py-2 px-1 mt-auto font-barlow font-extrabold tracking-normal text-2xl 2xl:text-4xl hover:text-[var(--colorHightlight-dark)] transition-all duration-150'>Contact</a>
             </div>
 
