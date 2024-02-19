@@ -14,15 +14,15 @@
         - bloquer des jours (update 'locked' to true and don't let users take that day)     OK
             - show in list the locked days with 'special' effect                            OK
         
-        - envoyer rappel rdv aux clients par email (connection EmailJS)
+        - envoyer rappel rdv aux clients par email (connection EmailJS)                     OK
 
         -> fix refreshing on new appointment added (it refreshes everything not just adds something to the list)
 
 
     - apply Design on Appointment System                                                    OK
-        - add up/down arrow to clickable components
+        - add up/down arrow to clickable components                                         TODO
 
 
     - let user chose what service it wants (and give him price)                             OK
 
-    - finish Menu Bar (Burger Version)
+    - finish Menu Bar (Burger Version)  OK if                                               TODO
