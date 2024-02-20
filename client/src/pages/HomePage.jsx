@@ -411,7 +411,7 @@ const Contact = () => {
               <HiOutlinePhone className='text-white text-5xl self-center'/>
             </div>
             <div>
-              <h3 className='uppercase text-lg md:text-xl  text-gray-600/80 font-open-sans font-medium'>Appelez nous maitenant </h3>
+              <h3 className='uppercase text-lg md:text-xl  text-gray-600/80 font-open-sans font-medium'>Appelez nous maintenant </h3>
               <h3 className='uppercase text-lg md:text-xl  text-white font-barlow font-medium tracking-widest'>{DATA.phone_number}</h3>
             </div>
           </div>
