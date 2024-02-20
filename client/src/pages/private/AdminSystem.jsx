@@ -266,7 +266,7 @@ const LockDays = () => {
 
     return (
         <div className='py-5'>
-            <input type="date" id="datePicker" onChange={handleDateChange} multiple className='bg-[var(--colorHightlight)] rounded-lg p-2'/>
+            <input type="date" id="datePicker" onChange={handleDateChange} min='today' multiple className='bg-[var(--colorHightlight)] rounded-lg p-2'/>
 
             <h2 className='text-white mx-2 pt-5 pb-1 border-b-[0.10rem] border-white'>Selected Days:</h2>
             <ul className='text-white px-2 py-5 max-h-[250px] overflow-auto'>

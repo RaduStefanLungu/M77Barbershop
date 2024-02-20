@@ -43,26 +43,6 @@ export async function getUserDocument(userEmail){
   return searchedDocument;
 }
 
-// export async function getUserDocumentByID(userID){
-//   const myCollection = await collection(firestore_db,"user_data")
-//   const querySnapshot = await getDocs(myCollection)
-  
-//   const documentsData = []
-//   querySnapshot.forEach((doc) => {
-//     documentsData.push({id: doc.id, ...doc.data()})
-//   })  
-
-//   let searchedDocument = null
-//   documentsData.forEach((doc) => {
-//     if(doc.id === userID){
-//       searchedDocument = doc
-//       return false
-//     }
-//   })
-//   return searchedDocument;
-// }
-
-
 
 const getDocumentById = async (collectionName, documentId) => {
   try {
@@ -91,18 +71,6 @@ async function removeDocumentByID(docID) {
       console.error('Error removing document: ', error);
   }
 }
-
-// export async function getUsers(){
-//   const myCollection = await collection(firestore_db,"user_data")
-//   const querySnapshot = await getDocs(myCollection)
-
-//   const all_users = []
-//   querySnapshot.forEach((doc) => {
-//     all_users.push({id: doc.id, ...doc.data()})
-//   })  
-
-//   return all_users;
-// }
 
 export async function getTakenHoursOfDay(day){
   let result = []

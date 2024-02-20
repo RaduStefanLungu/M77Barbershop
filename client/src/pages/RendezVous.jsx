@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { addAppointment, getAppointmentDate, getTakenHoursOfDay, isDayLocked } from '../firebase'
 import emailjs from '@emailjs/browser';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+import { useNavigate } from 'react-router-dom';
 
 import { GiComb,GiBeard } from "react-icons/gi";
 import { CiGift } from "react-icons/ci";
@@ -43,6 +47,8 @@ const RdvForm = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 
+  const redirect = useNavigate()
+
   const rendezVousForm = useRef()
 
   // when date is set query from db all the free appointment spots
@@ -50,13 +56,12 @@ const RdvForm = () => {
   async function handleDateChosen(e){
     e.preventDefault()
 
-    // query
+    // format
     let given_date = e.target.value
-
     let splitted_date = given_date.split('-')
-
     let formatted_date = splitted_date[2] + "_" + splitted_date[1] + "_" + splitted_date[0]
 
+    // set formated date
     setDate(formatted_date)
     
     // user chosen day
@@ -72,8 +77,6 @@ const RdvForm = () => {
     if(locked_day === false) {
       taken_hours = await getTakenHoursOfDay(formatted_date)
     }
-    
-    // console.log(taken_hours);
 
     // put all of them at IsTaken = false
     DATA.horaire.map(
@@ -94,15 +97,48 @@ const RdvForm = () => {
       }
     )
 
+  }
 
-  
+  const updateAppointmentHours = async (chosen_day) =>{
+
+    const formatted_date = chosen_day.split('-').reverse().join("_")
+
+    let taken_hours = []
+
+    if(lockedDay === false) {
+      taken_hours = await getTakenHoursOfDay(formatted_date)
+    }
+
+    DATA.horaire.map(
+      (value,key) =>{
+        if(value.day === new Date(chosen_day)){
+          let formatted_list = []
+          value.hours.map((hour,k) => {
+            if(taken_hours.includes(hour)){
+              formatted_list.push([hour,true])
+            }
+            else{
+              formatted_list.push([hour,false])
+            }
+            
+          })
+          setAppointmentHours(formatted_list)
+        }
+      }
+    )
+  }
+
+  function redirectToHomePageAfterDelay(miliseconds) {
+    
+    setTimeout(() => {
+      // redirect('/')
+      window.location.reload();
+    }, miliseconds); // Redirect after 5 seconds (5000 milliseconds)
   }
 
   function handleSubmit(e) {
     e.preventDefault()
 
-
-    // console.log(appointmentTime.length);
     // check if everything is completed (by default all but appointmentTime will be selected because of 'required' )
     if(appointmentTime.length <= 0 || selectedServices.length <= 0) {
       setErrorMessage("Veuillez choisir une heure disponible et un service")
@@ -112,15 +148,16 @@ const RdvForm = () => {
       addAppointment(fullName, email, phone, date, appointmentTime).then(
         (response) => {
           // send email to user
-        emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
-            .then((result) => {
-                setSuccessMessage("Votre réservation à été prise en compte, veuillez vérifier votre email !")
-                setErrorMessage("")
-                // Add any success message or logic here
-            }, (error) => {
-                console.error('Email sending failed:', error.text);
-                // Add any error handling logic here
-            });
+          emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
+              .then((result) => {
+                  setSuccessMessage("Votre réservation à été prise en compte, veuillez vérifier votre email !")
+                  setErrorMessage("")
+                  // Add any success message or logic here
+              }, (error) => {
+                  console.error('Email sending failed:', error.text);
+                  // Add any error handling logic here
+              });
+          redirectToHomePageAfterDelay(3000)
         }
       )
     }
@@ -130,7 +167,7 @@ const RdvForm = () => {
 
   function getDayOfWeek(default_date) {
     if (default_date) {
-      const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+      const days = ['dimanche','lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
       const dayIndex = default_date.getDay();
       return days[dayIndex];
     } else {
@@ -152,9 +189,9 @@ const RdvForm = () => {
     )
   }
 
+
   const [clickedHour,setClickedHour] = useState(["",false])
 
-  
 
   return(
     <form ref={rendezVousForm} className='grid bg-[var(--colorHightlight-transparent-50)] pt-5 pb-10 px-2 max-w-[500px] mx-auto' onSubmit={handleSubmit}>
