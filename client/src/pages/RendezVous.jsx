@@ -202,7 +202,10 @@ const RdvForm = () => {
         <input type='text' name='user_name' required placeholder='Nom et Prénom' className='input-custom' onChange={(e)=>{setFullName(e.target.value)}}/>
         <input type='text' name='user_email' required placeholder='Email' className='input-custom' onChange={(e)=>{setEmail(e.target.value)}}/>
         <input type='text' required placeholder='GSM' className='input-custom' onChange={(e)=>{setPhone(e.target.value)}} />
-        <input type='date' id='chosen_date' placeholder='Sélectionnez le jour' required min={today} className='input-custom-2' onChange={handleDateChosen}/>
+        <div className='flex gap-5'>
+          <label className='my-auto font-barlow font-bold tracking-tight text-[var(--colorTemplate1)] text-xl xl:text-2xl'>Sélectionnez le jour : </label>
+          <input type='date' id='chosen_date' required min={today} className='input-custom-2' onChange={handleDateChosen}/>
+        </div>
         <input name='appointment_date' className='hidden' value={date}/>
         <input name='appointment_time' className='hidden' value={appointmentTime}/>
         <input name='selected_service' className='hidden' value={selectedServices}/>
