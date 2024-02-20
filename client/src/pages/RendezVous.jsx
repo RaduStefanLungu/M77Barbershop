@@ -136,6 +136,8 @@ const RdvForm = () => {
     }, miliseconds); // Redirect after 5 seconds (5000 milliseconds)
   }
 
+
+
   function handleSubmit(e) {
     e.preventDefault()
 
@@ -200,7 +202,7 @@ const RdvForm = () => {
         <input type='text' name='user_name' required placeholder='Nom et Prénom' className='input-custom' onChange={(e)=>{setFullName(e.target.value)}}/>
         <input type='text' name='user_email' required placeholder='Email' className='input-custom' onChange={(e)=>{setEmail(e.target.value)}}/>
         <input type='text' required placeholder='GSM' className='input-custom' onChange={(e)=>{setPhone(e.target.value)}} />
-        <input type='date' id='chosen_date' required min={today} className='input-custom-2' onChange={handleDateChosen}/>
+        <input type='date' id='chosen_date' placeholder='Sélectionnez le jour' required min={today} className='input-custom-2' onChange={handleDateChosen}/>
         <input name='appointment_date' className='hidden' value={date}/>
         <input name='appointment_time' className='hidden' value={appointmentTime}/>
         <input name='selected_service' className='hidden' value={selectedServices}/>
@@ -219,7 +221,7 @@ const RdvForm = () => {
       </div>
 
       <div className='grid pt-5'>
-        <label className='text-title text-[var(--colorTemplate1)] text-3xl pb-5'>Choissiez le service</label>
+        <label className='text-title text-[var(--colorTemplate1)] text-3xl pb-5'>Choisissez le service</label>
         <div className='grid justify-center gap-10'>
           <ServiceGroup GroupName={SERVICES.services_by_group[0].group} GroupIcon={<GiComb/>} Services={SERVICES.services_by_group[0].services} SelectedServiceList={[selectedServices,setSelectedServices]}/>
           <ServiceGroup GroupName={SERVICES.services_by_group[1].group} GroupIcon={<GiBeard/>} Services={SERVICES.services_by_group[1].services} SelectedServiceList={[selectedServices,setSelectedServices]} />
