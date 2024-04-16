@@ -47,7 +47,7 @@ const RdvForm = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 
-  const redirect = useNavigate()
+  const [clickedSubmit, setClickedSubmit] = useState(false)
 
   const rendezVousForm = useRef()
 
@@ -99,39 +99,9 @@ const RdvForm = () => {
 
   }
 
-  const updateAppointmentHours = async (chosen_day) =>{
-
-    const formatted_date = chosen_day.split('-').reverse().join("_")
-
-    let taken_hours = []
-
-    if(lockedDay === false) {
-      taken_hours = await getTakenHoursOfDay(formatted_date)
-    }
-
-    DATA.horaire.map(
-      (value,key) =>{
-        if(value.day === new Date(chosen_day)){
-          let formatted_list = []
-          value.hours.map((hour,k) => {
-            if(taken_hours.includes(hour)){
-              formatted_list.push([hour,true])
-            }
-            else{
-              formatted_list.push([hour,false])
-            }
-            
-          })
-          setAppointmentHours(formatted_list)
-        }
-      }
-    )
-  }
-
   function redirectToHomePageAfterDelay(miliseconds) {
     
     setTimeout(() => {
-      // redirect('/')
       window.location.reload();
     }, miliseconds); // Redirect after 5 seconds (5000 milliseconds)
   }
@@ -146,6 +116,9 @@ const RdvForm = () => {
       setErrorMessage("Veuillez choisir une heure disponible et un service")
     }
     else{
+      // set clicked state
+      setClickedSubmit(true)
+
       // if all good : add appointment to db
       addAppointment(fullName, email, phone, date, appointmentTime).then(
         (response) => {
@@ -235,7 +208,7 @@ const RdvForm = () => {
       <label className='text-[var(--colorTemplate1)] font-open-sans text-center p-2'><span className='underline font-medium'>Note</span> : <span className='font-bold'>Mardi</span> et <span className='font-bold'>Vendredi</span> à partir de 18:30 il y aura 10€ de supplement .</label>
       <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
       <p className='text-center text-green-500 bg-white'>{successMessage}</p>
-      <button type='submit' className='button-filled-small'>Réserver</button>
+      <button type='submit' className={`button-filled-small disabled:bg-[var(--colorHightlight-dark)] disabled:border-[var(--colorHightlight-dark)] disabled:border-[0.15rem] disabled:text-gray-600`} disabled={clickedSubmit}>Réserver</button>
 
     </form>
   )
