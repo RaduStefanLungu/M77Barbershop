@@ -325,8 +325,8 @@ const Gallery = () => {
         </div>
 
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
-          <img alt='' src={GALLERY_IMAGE_16} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
           <img alt='' src={GALLERY_IMAGE_15} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+          <img alt='' src={GALLERY_IMAGE_17} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
         </div>
         
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
@@ -378,7 +378,7 @@ const Gallery = () => {
 
           <div className=' h-[500px] self-center flex gap-20'>
             <div className='relative 2xl:w-[300px]'>
-              <img alt='' src={GALLERY_IMAGE_16} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <img alt='' src={GALLERY_IMAGE_17} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
               <img alt='' src={GALLERY_IMAGE_15} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
             </div>
             
