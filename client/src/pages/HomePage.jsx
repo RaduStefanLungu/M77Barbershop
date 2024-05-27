@@ -28,6 +28,16 @@ import GALLERY_IMAGE_3 from '../resources/gallery/image_3.jpg'
 import GALLERY_IMAGE_4 from '../resources/handsome-man-barbershop-shaving-beard.jpg'
 import GALLERY_IMAGE_5 from '../resources/hairdresser-cutting-man-s-hair-barber-shop.jpg'
 
+import GALLERY_IMAGE_10 from '../resources/gallery/image00001.jpeg'
+import GALLERY_IMAGE_11 from '../resources/gallery/image00002.jpeg'
+import GALLERY_IMAGE_12 from '../resources/gallery/image00003.jpeg'
+import GALLERY_IMAGE_13 from '../resources/gallery/image00004.jpeg'
+import GALLERY_IMAGE_14 from '../resources/gallery/image00005.jpeg'
+import GALLERY_IMAGE_15 from '../resources/gallery/image00006.jpeg'
+import GALLERY_IMAGE_16 from '../resources/gallery/image00007.jpeg'
+import GALLERY_IMAGE_17 from '../resources/gallery/image00008.jpeg'
+
+
 
 
 
@@ -298,15 +308,25 @@ const Gallery = () => {
       <div className='flex flex-col gap-10 2xl:hidden py-10 lg:py-20'>
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
           <div className='relative max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black '>
-            <img alt='' src={GALLERY_IMAGE_5} className='' />
-            <a className='absolute top-0 right-2 text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a>
+            <img alt='' src={GALLERY_IMAGE_10} className='' />
+            {/* <a className='absolute top-0 right-2 text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a> */}
           </div>
-          <img alt='' src={GALLERY_IMAGE_2} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
+          <img alt='' src={GALLERY_IMAGE_11} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black ' />
         </div>
 
-        <div className='relative max-w-[700px] mx-2 md:px-0 md:mx-auto shadow-md shadow-black'>
-          <img alt='' src={GALLERY_IMAGE_4} className='' />
-          <a className='absolute top-0 md:left-[5%] lg:left-[17%] text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image by senivpetro - Freepik.com</a>
+        <div className='relative max-w-[400px] mx-2 md:px-0 md:mx-auto shadow-md shadow-black'>
+          <img alt='' src={GALLERY_IMAGE_2} className='' />
+          {/* <a className='absolute top-0 md:left-[5%] lg:left-[17%] text-end text-white text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image by senivpetro - Freepik.com</a> */}
+        </div>
+
+        <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_12} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+          <img alt='' src={GALLERY_IMAGE_14} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+        </div>
+
+        <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
+          <img alt='' src={GALLERY_IMAGE_16} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
+          <img alt='' src={GALLERY_IMAGE_15} className='max-w-screen mx-2 md:max-w-[350px] shadow-md shadow-black' />
         </div>
         
         <div className='flex flex-col justify-center gap-10 mx-auto md:flex-row md:gap-5 '>
@@ -316,7 +336,7 @@ const Gallery = () => {
 
       </div>
 
-      <div className='hidden flex-col gap-10 xl:hidden'>
+      {/* <div className='hidden flex-col gap-10 xl:hidden'>
         <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
           <div className='relative'>
             <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] xl:max-w-[250px] ' />
@@ -332,26 +352,40 @@ const Gallery = () => {
           <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px]' />
         </div>
 
-      </div>
+      </div> */}
 
-      <div className='hidden flex-col gap-10 2xl:flex py-20'>
-        <div className='flex flex-col justify-center gap-10  md:flex-row md:gap-5 '>
-          <div className='relative 2xl:w-[300px]'>
-            <div className='relative'>
-              <img alt='' src={GALLERY_IMAGE_5} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
-              <a className='absolute top-0 right-5 text-end text-white text-xs z-50' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image from Freepik</a>
-            </div>
-            <img alt='' src={GALLERY_IMAGE_3} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black -rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
-          </div>
-
-          <div className='relative'>
+      <div className='hidden flex-col 2xl:flex py-20'>
+        <div className='grid  justify-center md:flex-row md:gap-5 '>
+          
+          {/* <div className='relative'>
             <img alt='' src={GALLERY_IMAGE_4} className='max-w-[700px] px-10 md:px-0 md:mx-auto 2xl:mx-5 2xl:max-w-[600px] 2xl:h-[450px] shadow-md shadow-black' />
             <a className='absolute bottom-0 right-7  text-end text-white/70 text-xs' href='https://www.freepik.com/' target='_blank' rel='noreferrer'>Image by senivpetro - Freepik.com</a>
+          </div> */}
+
+          <div className=' h-[500px] self-center flex gap-20 mr-20'>
+            <div className='relative 2xl:w-[300px]'>
+              <img alt='' src={GALLERY_IMAGE_10} className='max-w-[350px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <img alt='' src={GALLERY_IMAGE_11} className='max-w-[350px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+            </div>
+            
+            <div className='relative 2xl:w-[300px]'>
+              <img alt='' src={GALLERY_IMAGE_13} className='max-w-[350px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <img alt='' src={GALLERY_IMAGE_12} className='max-w-[350px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+            </div>
           </div>
-          
-          <div className='relative 2xl:w-[300px]'>
-            <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
-            <img alt='' src={GALLERY_IMAGE_2} className='max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+
+          {/* <img alt='' src={GALLERY_IMAGE_3} className='mr-5 max-w-[350px] 2xl:max-w-[250px] 2xl:h-[450px] shadow-md shadow-black hover:shadow-transparent transition-all duration-300'/> */}
+
+          <div className=' h-[500px] self-center flex gap-20'>
+            <div className='relative 2xl:w-[300px]'>
+              <img alt='' src={GALLERY_IMAGE_16} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <img alt='' src={GALLERY_IMAGE_15} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+            </div>
+            
+            <div className='relative 2xl:w-[300px]'>
+              <img alt='' src={GALLERY_IMAGE_1} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-7 z-40 shadow-md shadow-black' />
+              <img alt='' src={GALLERY_IMAGE_2} className='max-w-[350px]  2xl:h-[450px] absolute top-0 left-5 z-30 shadow-md shadow-black rotate-12 hover:z-50 hover:shadow-transparent transition-all duration-300'/>
+            </div>
           </div>
 
         </div>

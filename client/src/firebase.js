@@ -192,7 +192,7 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
           }
 
            // add new appointment to array
-           // no need to check if already exists because of 'disableb' proprety of the selected stuff
+           // no need to check if already exists because of 'disabled' proprety of the selected stuff
            
            const appointmentRef = doc(firestore_db, "appointments", rdv_date);
            updateDoc(appointmentRef, {
