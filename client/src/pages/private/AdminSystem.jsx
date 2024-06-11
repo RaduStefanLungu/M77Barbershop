@@ -46,7 +46,7 @@ const AppointmentsList = () => {
 
   const DayTab = ({Data}) => {
 
-    const Appointment =({ADay,ATime,Uemail,Uname,Uphone,ATakenTime,ANumber}) => {
+    const Appointment =({ADay,ATime,Uemail,Uname,Uphone,UService,ATakenTime,ANumber}) => {
 
       function formatFirestoreTimestamp(timestamp) {
         // Convert Firestore Timestamp to JavaScript Date object
@@ -92,7 +92,7 @@ const AppointmentsList = () => {
         <div className='grid bg-[var(--colorHightlight)] p-5 rounded-lg font-baskerville'>
 
           <div className='flex border-b-[0.05rem] border-[var(--colorTemplate2)] md:text-xl' onClick={()=>{setClickedApp(!clickedApp)}}>
-            <label>Heure : {ATime}</label>
+            <label>Heure : {ATime} &#9866; <span className='font-bold'>{UService}</span></label>
             {
               clickedApp? <RiArrowDownSLine className='text-2xl text-center text-[var(--colorTemplate2)] my-auto ml-2 md:ml-5'/> : <RiArrowUpSLine className='text-2xl text-center text-[var(--colorTemplate2)] my-auto ml-2 md:ml-5'/>
             }
@@ -194,7 +194,7 @@ const AppointmentsList = () => {
 
                 return(
                   <Appointment key={key} ADay={element.data.rdv_date} ATime={element.data.rdv_time} Uemail={element.data.user_email}
-                              Uname={element.data.user_name} Uphone={element.data.user_phone} ATakenTime={element.data.rdv_taken_time} ANumber={element.data.appointment_number} />
+                              Uname={element.data.user_name} Uphone={element.data.user_phone} UService={element.data.service_type} ATakenTime={element.data.rdv_taken_time} ANumber={element.data.appointment_number} />
                 )
               }
             )

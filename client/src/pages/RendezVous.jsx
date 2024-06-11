@@ -22,10 +22,10 @@ export default function RendezVous() {
       
       <div className='container mx-auto py-10 px-2'>
 
-        {/* <RdvForm/> */}
+        <RdvForm/>
 
-        <h2 className='text-4xl text-white font-bold text-center bg-yellow-800 py-3 rounded-xl'>Le service est actuellement en maintenance, veuillez essayer plus tard.</h2>
-        <img className='md:max-w-[500px] md:mx-auto my-20' alt='' src={MaintenanceImage}></img>
+        {/* <h2 className='text-4xl text-white font-bold text-center bg-yellow-800 py-3 rounded-xl'>Le service est actuellement en maintenance, veuillez essayer plus tard.</h2>
+        <img className='md:max-w-[500px] md:mx-auto my-20' alt='' src={MaintenanceImage}></img> */}
 
       </div>
 
@@ -125,7 +125,7 @@ const RdvForm = () => {
       setClickedSubmit(true)
 
       // if all good : add appointment to db
-      addAppointment(fullName, email, phone, date, appointmentTime).then(
+      addAppointment(fullName, email, phone, date, appointmentTime,selectedServices).then(
         (response) => {
           // send email to user
           emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)

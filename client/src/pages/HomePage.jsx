@@ -49,9 +49,9 @@ export default function HomePage() {
 
       <div className='hero-bg '>
         <Hero></Hero>   
-        <div className='text-end px-10 text-white/70 text-xs'>
+        {/* <div className='text-end px-10 text-white/70 text-xs'>
           <a href="https://www.freepik.com/free-photo/vintage-frame-salon-tools-wooden-table-jobs-career-concept_18836292.htm" target='_blank' rel='noreferrer'>Image by rawpixel.com</a> on Freepik   
-        </div>
+        </div> */}
       </div>
 
       <div>
@@ -150,7 +150,7 @@ const AboutUs = () => {
 
       <div className='relative grid'>
         <img alt='' src={AboutPhoto} className='hidden xl:block my-auto min-w-[300px]' />
-        <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-[21%] right-0 text-end text-white text-xs'>Image by Freepik</a>
+        {/* <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-[21%] right-0 text-end text-white text-xs'>Image by Freepik</a> */}
       </div>
 
       <div className='grid gap-5'>
@@ -184,7 +184,7 @@ const AboutUs = () => {
         
         <div className='relative'>
           <img alt='' src={AboutPhoto} className='xl:hidden md:w-[650px] lg:w-[800px] mx-auto' />
-          <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-0 right-0 lg:right-10 text-end text-white text-xs'>Image by Freepik</a>
+          {/* <a href='/' target='_blank' rel='noreferrer' className='absolute bottom-0 right-0 lg:right-10 text-end text-white text-xs'>Image by Freepik</a> */}
         </div>
 
         

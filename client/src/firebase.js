@@ -154,7 +154,7 @@ export async function getAllAppointmentsMonotone() {
   return appointmentsByDay;
 }
 
-export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time){
+export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time,service_type){
     const data = {
         appointment_number : "appointment_0",
         user_name: user_name,
@@ -162,6 +162,7 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
         user_phone: user_phone,
         rdv_date: rdv_date,
         rdv_time: rdv_time,
+        service_type: service_type,
         rdv_taken_time : Timestamp.now()
     }
   
