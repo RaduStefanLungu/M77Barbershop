@@ -5,6 +5,7 @@ import { getAllAppointments, lockDays, removeAppointment, unlockDays } from '../
 import emailjs from '@emailjs/browser';
 
 import { RiArrowDownSLine,RiArrowUpSLine } from "react-icons/ri";
+// import DownloadJson from '../../components/DownloadJson';
 
 
 export default function AdminSystem() {
@@ -14,6 +15,10 @@ export default function AdminSystem() {
       <header className='flex gap-5 justify-end px-4 py-2'>
         <LogOutButton/>
       </header>
+{/* 
+      <div className='container mx-auto px-10'>
+        <DownloadJson/>
+      </div> */}
 
       <AppointmentsList/>
 
