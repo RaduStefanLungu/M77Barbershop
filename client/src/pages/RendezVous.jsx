@@ -12,6 +12,8 @@ import { CiGift } from "react-icons/ci";
 import DATA from '../data/data.json'
 import SERVICES from '../data/services.json'
 
+import MaintenanceImage from '../resources/warning-maintenance.png'
+
 // TODO make user to render appointment if it is available
 
 export default function RendezVous() {
@@ -20,7 +22,10 @@ export default function RendezVous() {
       
       <div className='container mx-auto py-10 px-2'>
 
-        <RdvForm/>
+        {/* <RdvForm/> */}
+
+        <h2 className='text-4xl text-white font-bold text-center bg-yellow-800 py-3 rounded-xl'>Le service est actuellement en maintenance, veuillez essayer plus tard.</h2>
+        <img className='md:max-w-[500px] md:mx-auto my-20' alt='' src={MaintenanceImage}></img>
 
       </div>
 
