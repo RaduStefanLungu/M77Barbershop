@@ -127,17 +127,27 @@ const RdvForm = () => {
       // if all good : add appointment to db
       addAppointment(fullName, email, phone, date, appointmentTime,selectedServices).then(
         (response) => {
-          // send email to user
-          emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
-              .then((result) => {
-                  setSuccessMessage("Votre réservation à été prise en compte, veuillez vérifier votre email !")
-                  setErrorMessage("")
-                  // Add any success message or logic here
-              }, (error) => {
-                  console.error('Email sending failed:', error.text);
-                  // Add any error handling logic here
-              });
-          redirectToHomePageAfterDelay(3000)
+          // won't add new appointment since hour has been taken
+          if(response === false){
+            setSuccessMessage("")
+            setErrorMessage("Votre réservation N'a PAS été prise en compte, veuillez reessyer!")
+            redirectToHomePageAfterDelay(3000)
+          }
+          // appointment added, confirm by email
+          else{
+            // send email to user
+            emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
+            .then((result) => {
+                setSuccessMessage("Votre réservation a été prise en compte, veuillez vérifier votre email !")
+                setErrorMessage("")
+                // Add any success message or logic here
+            }, (error) => {
+                console.error('Email sending failed:', error.text);
+                // Add any error handling logic here
+            });
+            redirectToHomePageAfterDelay(3000)
+          }
+          
         }
       )
     }
@@ -211,8 +221,8 @@ const RdvForm = () => {
       </div>
 
       <label className='text-[var(--colorTemplate1)] font-open-sans text-center p-2'><span className='underline font-medium'>Note</span> : <span className='font-bold'>Mardi</span> et <span className='font-bold'>Vendredi</span> à partir de 18:30 il y aura 10€ de supplement .</label>
-      <p className='text-center text-red-500 bg-white'>{errorMessage}</p>
-      <p className='text-center text-green-500 bg-white'>{successMessage}</p>
+      <p className='text-center text-red-500 bg-white font-bold'>{errorMessage}</p>
+      <p className='text-center text-green-500 bg-white font-bold'>{successMessage}</p>
       <button type='submit' className={`button-filled-small disabled:bg-[var(--colorHightlight-dark)] disabled:border-[var(--colorHightlight-dark)] disabled:border-[0.15rem] disabled:text-gray-600`} disabled={clickedSubmit}>Réserver</button>
 
     </form>

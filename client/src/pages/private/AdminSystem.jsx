@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { getAllAppointments, lockDays, removeAppointment, unlockDays } from '../../firebase'
+import { addAppointment, getAllAppointments, lockDays, removeAppointment, unlockDays } from '../../firebase'
 
 import emailjs from '@emailjs/browser';
 

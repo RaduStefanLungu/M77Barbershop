@@ -154,6 +154,7 @@ export async function getAllAppointmentsMonotone() {
   return appointmentsByDay;
 }
 
+// TODO : when adding a new appointment to document, check if it exists already !!!  
 export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv_time,service_type){
     const data = {
         appointment_number : "appointment_0",
@@ -165,44 +166,100 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
         service_type: service_type,
         rdv_taken_time : Timestamp.now()
     }
-  
+
     try{
       
       // check if document already existst:
 
-      getDocumentById('appointments',rdv_date).then(
-        (response) => {
-          let number_of_existing_appointments = 0
-          
-          // if it doesn't exists, create it 
-          if(response === null){
-            setDoc(doc(firestore_db,'appointments',rdv_date),{
-              all_appointments : [],
-              locked : false
-            })
-          }
-          else{
-            //get # of existing appointments 
-            number_of_existing_appointments = response.all_appointments.length
-            // get last appointment number
-            if(number_of_existing_appointments > 0 ) {
-              const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
-              const last_appoint_number =  parseInt(last_appoint.split("_")[1])
-              data.appointment_number = `appointment_${last_appoint_number+1}`
-            }
-          }
-
-           // add new appointment to array
-           // no need to check if already exists because of 'disabled' proprety of the selected stuff
-           
-           const appointmentRef = doc(firestore_db, "appointments", rdv_date);
-           updateDoc(appointmentRef, {
-           all_appointments: arrayUnion({ data })
-            });
-
-        }
-      )
+      const myDocument = await getDocumentById('appointments',rdv_date);
       
+      let number_of_existing_appointments = 0
+
+      // if it doesn't exists, create document 
+      if(myDocument === null){
+        setDoc(doc(firestore_db,'appointments',rdv_date),{
+          all_appointments : [],
+          locked : false
+        })
+      }
+
+      // document exists
+      else{
+        // check if hour of appointment has been taken :
+        let appointment_hour_taken = false;
+        myDocument.all_appointments.forEach((rezervation) => {
+          if(rezervation.data.rdv_time === rdv_time){
+            appointment_hour_taken = true
+            return  // stop loop
+          }
+        })
+
+        // if appointment hour is taken then don't continue
+        if(appointment_hour_taken){
+          console.log(`Appointment hour(${rdv_time}) taken on ${rdv_date}.`);
+          return false;
+        }
+        // appointment hour is available
+        else{
+          //get # of existing appointments 
+          number_of_existing_appointments = myDocument.all_appointments.length
+          // get last appointment number
+          if(number_of_existing_appointments > 0 ) {
+            const last_appoint = myDocument.all_appointments[number_of_existing_appointments-1].data.appointment_number
+            const last_appoint_number =  parseInt(last_appoint.split("_")[1])
+            data.appointment_number = `appointment_${last_appoint_number+1}`
+          }
+        }
+      }
+
+      // add new appointment to array after the document has been fetched/created
+      // all verifications has been done before (locked in UI & line 198)
+      const appointmentRef = doc(firestore_db, "appointments", rdv_date);
+      updateDoc(appointmentRef, {
+      all_appointments: arrayUnion({ data })
+      });
+
+
+      // getDocumentById('appointments',rdv_date).then(
+      //   (response) => {
+      //     let number_of_existing_appointments = 0
+          
+      //     // if it doesn't exists, create it 
+      //     if(response === null){
+      //       setDoc(doc(firestore_db,'appointments',rdv_date),{
+      //         all_appointments : [],
+      //         locked : false
+      //       })
+      //     }
+      //     else{
+      //       // check if hour of appointment has been taken :
+
+      //       response.all_appointments.forEach((rezervation) => {
+      //         if(rezervation.data.rdv_time === rdv_time){
+      //           return false; // false because it already exists
+      //         }
+      //       })
+
+      //       //get # of existing appointments 
+      //       number_of_existing_appointments = response.all_appointments.length
+      //       // get last appointment number
+      //       if(number_of_existing_appointments > 0 ) {
+      //         const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
+      //         const last_appoint_number =  parseInt(last_appoint.split("_")[1])
+      //         data.appointment_number = `appointment_${last_appoint_number+1}`
+      //       }
+      //     }
+
+      //      // add new appointment to array
+      //      // no need to check if already exists because of 'disabled' proprety of the selected stuff
+           
+      //     //  const appointmentRef = doc(firestore_db, "appointments", rdv_date);
+      //     //  updateDoc(appointmentRef, {
+      //     //  all_appointments: arrayUnion({ data })
+      //     //   });
+
+      //   }
+      // )
 
       return(true)
 

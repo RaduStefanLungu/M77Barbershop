@@ -1,0 +1,51 @@
+function getDaysFromAugustUntilEndOfYear() {
+    const days = [];
+    const startDate = new Date(2024, 7, 1); // August 1, 2024 (months are 0-indexed, so 7 is August)
+    const endOfYear = new Date(2024, 11, 31); // December 31, 2024
+  
+    while (startDate <= endOfYear) {
+      const day = String(startDate.getDate()).padStart(2, '0');
+      const month = String(startDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+      const year = startDate.getFullYear();
+  
+      days.push(`${day}_${month}_${year}`);
+  
+      // Move to the next day
+      startDate.setDate(startDate.getDate() + 1);
+    }
+  
+    return(days)
+  }
+
+  async function BloquerJours(e){
+    e.preventDefault();
+
+
+    const all_dates = getDaysFromAugustUntilEndOfYear()
+
+    all_dates.forEach(async (value)=>{
+      const data_12 = {
+        user_name : 'pause_midi',
+        user_email : 'pause.midi@test.com',
+        user_phone : '0000000000',
+        rdv_date : value,
+        rdv_time : '12:00',
+        service_type : 'PAUSE-DE-MIDI'
+      }
+      const data_1230 = {
+        user_name : 'pause_midi',
+        user_email : 'pause.midi@test.com',
+        user_phone : '0000000000',
+        rdv_date : value,
+        rdv_time : '12:30',
+        service_type : 'PAUSE-DE-MIDI'
+      }
+      
+      
+      // const response = await addAppointment(data_12.user_name,data_12.user_email,data_12.user_phone,data_12.rdv_date,data_12.rdv_time,data_12.service_type)
+      const response = await addAppointment(data_1230.user_name,data_1230.user_email,data_1230.user_phone,data_1230.rdv_date,data_1230.rdv_time,data_1230.service_type)
+
+      console.log(`${value} - ${response}`);
+      
+    })
+  }
