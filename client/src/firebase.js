@@ -220,47 +220,6 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
       });
 
 
-      // getDocumentById('appointments',rdv_date).then(
-      //   (response) => {
-      //     let number_of_existing_appointments = 0
-          
-      //     // if it doesn't exists, create it 
-      //     if(response === null){
-      //       setDoc(doc(firestore_db,'appointments',rdv_date),{
-      //         all_appointments : [],
-      //         locked : false
-      //       })
-      //     }
-      //     else{
-      //       // check if hour of appointment has been taken :
-
-      //       response.all_appointments.forEach((rezervation) => {
-      //         if(rezervation.data.rdv_time === rdv_time){
-      //           return false; // false because it already exists
-      //         }
-      //       })
-
-      //       //get # of existing appointments 
-      //       number_of_existing_appointments = response.all_appointments.length
-      //       // get last appointment number
-      //       if(number_of_existing_appointments > 0 ) {
-      //         const last_appoint = response.all_appointments[number_of_existing_appointments-1].data.appointment_number
-      //         const last_appoint_number =  parseInt(last_appoint.split("_")[1])
-      //         data.appointment_number = `appointment_${last_appoint_number+1}`
-      //       }
-      //     }
-
-      //      // add new appointment to array
-      //      // no need to check if already exists because of 'disabled' proprety of the selected stuff
-           
-      //     //  const appointmentRef = doc(firestore_db, "appointments", rdv_date);
-      //     //  updateDoc(appointmentRef, {
-      //     //  all_appointments: arrayUnion({ data })
-      //     //   });
-
-      //   }
-      // )
-
       return(true)
 
     }catch(e){
