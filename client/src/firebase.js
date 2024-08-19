@@ -196,8 +196,8 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
 
         // if appointment hour is taken then don't continue
         if(appointment_hour_taken){
-          console.log(`Appointment hour(${rdv_time}) taken on ${rdv_date}.`);
-          return false;
+          console.log(`Appointment hour(${rdv_time}) is taken on ${rdv_date}.`);
+          return(false);
         }
         // appointment hour is available
         else{
@@ -209,18 +209,20 @@ export async function addAppointment(user_name,user_emai,user_phone,rdv_date,rdv
             const last_appoint_number =  parseInt(last_appoint.split("_")[1])
             data.appointment_number = `appointment_${last_appoint_number+1}`
           }
+
+          // add new appointment to array after the document has been fetched/created & data object has been filled.
+          // all verifications has been done before (locked in UI & line 198)
+          const appointmentRef = doc(firestore_db, "appointments", rdv_date);
+          updateDoc(appointmentRef, {
+          all_appointments: arrayUnion({ data })
+          });
+          return(true)
+
         }
+
       }
 
-      // add new appointment to array after the document has been fetched/created
-      // all verifications has been done before (locked in UI & line 198)
-      const appointmentRef = doc(firestore_db, "appointments", rdv_date);
-      updateDoc(appointmentRef, {
-      all_appointments: arrayUnion({ data })
-      });
-
-
-      return(true)
+      
 
     }catch(e){
       addError({

@@ -60,6 +60,7 @@ const RdvForm = () => {
 
   async function handleDateChosen(e){
     e.preventDefault()
+    
 
     // format
     let given_date = e.target.value
@@ -68,6 +69,7 @@ const RdvForm = () => {
 
     // set formated date
     setDate(formatted_date)
+    
     
     // user chosen day
     let chosen_day_of_week = getDayOfWeek(new Date(e.target.value)) 
@@ -131,10 +133,9 @@ const RdvForm = () => {
           if(response === false){
             setSuccessMessage("")
             setErrorMessage("Votre réservation N'a PAS été prise en compte, veuillez reessyer!")
-            redirectToHomePageAfterDelay(3000)
+            redirectToHomePageAfterDelay(5000)
           }
-          // appointment added, confirm by email
-          else{
+          else if (response === true){
             // send email to user
             emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, rendezVousForm.current, process.env.REACT_APP_EMAILJS_USER_ID)
             .then((result) => {
@@ -145,7 +146,13 @@ const RdvForm = () => {
                 console.error('Email sending failed:', error.text);
                 // Add any error handling logic here
             });
-            redirectToHomePageAfterDelay(3000)
+            redirectToHomePageAfterDelay(5000)
+          }
+          // appointment added, confirm by email
+          else{
+            setSuccessMessage("")
+            setErrorMessage("Une erreur est apparue, re-esseyez !")
+            redirectToHomePageAfterDelay(5000)
           }
           
         }
@@ -169,6 +176,7 @@ const RdvForm = () => {
     
     function handleChosenHour(e){
       e.preventDefault()
+      
       ReferenceValues[1](Value)
     }
     
@@ -185,6 +193,7 @@ const RdvForm = () => {
 
   return(
     <form ref={rendezVousForm} className='grid bg-[var(--colorHightlight-transparent-50)] pt-5 pb-10 px-2 max-w-[500px] mx-auto' onSubmit={handleSubmit}>
+
       <h3 className='text-title text-white text-3xl pb-5'>Rendez-Vous</h3>
       <div className='grid gap-5'>
         <input type='text' name='user_name' required placeholder='Nom et Prénom' className='input-custom' onChange={(e)=>{setFullName(e.target.value)}}/>
