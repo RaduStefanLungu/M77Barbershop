@@ -41,11 +41,11 @@ export default function Footer() {
                   </div>
                   <div className='grid grid-cols-2 gap-5'>
                     <label className='ml-auto'>Mardi : </label>
-                    <label className='text-green-200'>9:00 - 21:00</label>
+                    <label className='text-green-200'>9:00 - 18:00</label>
                   </div>
                   <div className='grid grid-cols-2 gap-5'>
                     <label className='ml-auto'>Mercredi : </label>
-                    <label className='text-green-200'>9:00 - 18:00</label>
+                    <label className='text-green-200'>9:00 - 21:00</label>
                   </div>
                   <div className='grid grid-cols-2 gap-5'>
                     <label className='ml-auto'>Jeudi : </label>
