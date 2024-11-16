@@ -88,23 +88,43 @@ const RdvForm = () => {
     // put all of them at IsTaken = false
     // TODO : mise a jour apres septembre, nouveau horaire (interchange hours of mardi-mercredi)
 
-    if(given_date >= "2024-09-01"){ // return new schedule
-      DATA.horaire_a_partir_septembre2024.map(
-        (value,key) =>{
-          if(value.day === chosen_day_of_week){
-            let formatted_list = []
-            value.hours.map((hour,k) => {
-              if(taken_hours.includes(hour)){
-                formatted_list.push([hour,true])
+    // if(given_date >= "2024-09-01"){ // return new schedule
+    //   console.log("CYKAA");
+      
+    //   DATA.horaire_a_partir_septembre2024.map(
+    //     (value,key) =>{
+    //       if(value.day === chosen_day_of_week){
+    //         let formatted_list = []
+    //         value.hours.map((hour,k) => {
+    //           if(taken_hours.includes(hour)){
+    //             formatted_list.push([hour,true])
+    //           }
+    //           else{
+    //             formatted_list.push([hour,false])
+    //           }
+    //         })
+    //         setAppointmentHours(formatted_list)
+    //       }
+    //     }
+    //   )
+    // }
+    if(given_date >= "2024-12-16" && given_date <= "2024-12-23") {  // return new schedule
+      DATA.horaire_a_partir_16decembre2024.map(
+            (value,key) =>{
+              if(value.day === chosen_day_of_week){
+                let formatted_list = []
+                value.hours.map((hour,k) => {
+                  if(taken_hours.includes(hour)){
+                    formatted_list.push([hour,true])
+                  }
+                  else{
+                    formatted_list.push([hour,false])
+                  }
+                })
+                setAppointmentHours(formatted_list)
               }
-              else{
-                formatted_list.push([hour,false])
-              }
-            })
-            setAppointmentHours(formatted_list)
-          }
-        }
-      )
+            }
+          )
     }
     else{     // return old schedule
       
