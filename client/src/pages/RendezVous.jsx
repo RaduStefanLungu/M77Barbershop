@@ -273,7 +273,7 @@ const RdvForm = () => {
         </div>
       </div>
 
-      <label className='text-[var(--colorTemplate1)] font-open-sans text-center p-2'><span className='underline font-medium'>Note</span> : <span className='font-bold'>Lundi</span>,<span className='font-bold'>Mercredi</span>,<span className='font-bold'>Vendredi</span> et <span className='font-bold'>Dimanche</span> à partir de 18:30 il y aura 10€ de supplement .</label>
+      <label className='text-[var(--colorTemplate1)] font-open-sans text-center p-2'><span className='underline font-medium'>Note</span> :  A partir de 18:30 il y aura 10€ de supplement .</label>
       <p className='text-center text-red-500 bg-white font-bold'>{errorMessage}</p>
       <p className='text-center text-green-500 bg-white font-bold'>{successMessage}</p>
       <button type='submit' className={`button-filled-small disabled:bg-[var(--colorHightlight-dark)] disabled:border-[var(--colorHightlight-dark)] disabled:border-[0.15rem] disabled:text-gray-600`} disabled={clickedSubmit}>Réserver</button>
